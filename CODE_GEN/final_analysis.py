@@ -15,7 +15,7 @@ except Exception as e:  # pragma: no cover
 
 
 DB_PATH = "data.db"
-RESOURCES_DIR = "resources"
+RESOURCES_DIR = "CODE_GEN/resources"
 
 # Ensure repository root is on sys.path for imports like `service.*`
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir))
@@ -157,6 +157,7 @@ def llm_summary(symbol: str, analysis_results: str) -> None:
     Raises:
         RuntimeError or ValueError on missing env, context, price, or invalid model output.
     """
+    print(f"Generating investment advice...{symbol},{analysis_results}")
 
     if not symbol or not isinstance(symbol, str):
         raise ValueError("symbol must be a non-empty string")
