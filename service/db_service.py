@@ -36,19 +36,35 @@ def get_last_10_advises() -> List[Dict[str, Any]]:
         conn = _connect_readonly()
         conn.row_factory = sqlite3.Row
         cur = conn.cursor()
-        cur.execute(
-            """
-            SELECT
-              symbol,
-              advice_action,
-              advice_strength,
-              reason,
-              CAST(predicted_at AS INTEGER) AS predicted_at
-            FROM advises
-            ORDER BY predicted_at DESC, rowid DESC
-            LIMIT 10
-            """
+
+        # Detect available columns to include optional fields like price
+        has_price = False
+        try:
+            cur.execute("PRAGMA table_info(advises)")
+            columns_info = cur.fetchall()
+            col_names = {r[1] for r in columns_info}  # type: ignore[index]
+            has_price = "price" in col_names
+        except Exception:
+            # If table doesn't exist yet or PRAGMA fails, fall back gracefully
+            has_price = False
+
+        select_cols = [
+            "symbol",
+            "advice_action",
+            "advice_strength",
+            "reason",
+            "CAST(predicted_at AS INTEGER) AS predicted_at",
+        ]
+        if has_price:
+            select_cols.append("price")
+
+        sql = (
+            "SELECT "
+            + ",\n              ".join(select_cols)
+            + "\n            FROM advises\n            ORDER BY predicted_at DESC, rowid DESC\n            LIMIT 10"
         )
+
+        cur.execute(sql)
         rows = cur.fetchall()
     except sqlite3.OperationalError:
         # Table or columns may not exist yet; return empty list gracefully
@@ -72,6 +88,13 @@ def get_last_10_advises() -> List[Dict[str, Any]]:
             # Ensure integer for API contract
             "predicted_at": int(r["predicted_at"]) if r["predicted_at"] is not None else None,
         }
+        # Optional price field when present in schema
+        try:
+            if "price" in r.keys():
+                item["price"] = r["price"]
+        except Exception:
+            pass
+
         # Drop None values to keep payload clean
         results.append({k: v for k, v in item.items() if v is not None})
 
