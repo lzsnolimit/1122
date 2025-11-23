@@ -1,4 +1,4 @@
-from typing import Dict, Any, List
+from typing import Dict, Any, List, Optional
 import asyncio
 import json
 import math
@@ -88,10 +88,9 @@ async def async_get_symbol_24h_data(
 
     pair = f"{symbol}/{quote}"
     bars: List[Dict[str, Any]]
-    metadata: Dict[str, Any] = {}
     source = "spoon_toolkits.crypto_powerdata"
 
-    # Prefer direct tool function to also capture metadata when available
+    # Prefer direct tool function when available
     if get_cex_data_with_indicators is not None:
         result = await get_cex_data_with_indicators(
             exchange=exchange,
@@ -108,10 +107,8 @@ async def async_get_symbol_24h_data(
                 "timeframe": timeframe,
                 "bars": [],
                 "stats": {},
-                "metadata": result.get("metadata", {})
             }
         bars = result.get("data", [])
-        metadata = result.get("metadata", {})
     elif CryptoPowerDataCEXTool is not None:
         tool = CryptoPowerDataCEXTool()
         tool_result = await tool.execute(
@@ -129,23 +126,14 @@ async def async_get_symbol_24h_data(
                 "timeframe": timeframe,
                 "bars": [],
                 "stats": {},
-                "metadata": {}
             }
         bars = tool_result.output or []
-        metadata = {
-            "source": "CEX",
-            "exchange": exchange,
-            "symbol": pair,
-            "timeframe": timeframe,
-            "limit": 24,
-        }
     else:
         return {
             "pair": pair,
             "timeframe": timeframe,
             "bars": [],
             "stats": {},
-            "metadata": {},
         }
 
     # Compute 24h aggregates
@@ -244,7 +232,6 @@ async def async_get_symbol_24h_data(
             "log_return_24h_percent": log_return_24h_percent,
         },
         "indicators_latest": indicators_latest,
-        "metadata": metadata
     }
 
     # Drop None values from stats
@@ -285,10 +272,12 @@ def save_tracking_symbols_to_resources(
     quote: str = "USD",
     timeframe: str = "1h",
     output_dir: str = "CODE_GEN/resources",
+    symbols: Optional[List[str]] = None,
 ) -> Dict[str, str]:
     """
-    Fetch data for all symbols returned by `get_tracking_cryptocurrenc()` and
-    save each symbol's dataset into `CODE_GEN/resources/{symbol}.txt`.
+    Fetch data for provided `symbols` if given; otherwise use
+    `get_tracking_cryptocurrenc()` defaults. Save each symbol's dataset into
+    `CODE_GEN/resources/{symbol}.txt`.
 
     Returns a mapping of `symbol -> file_path` for successfully written files.
     """
@@ -296,7 +285,9 @@ def save_tracking_symbols_to_resources(
     os.makedirs(output_dir, exist_ok=True)
     written: Dict[str, str] = {}
 
-    for symbol in get_tracking_cryptocurrenc():
+    iteration_symbols = symbols if symbols else get_tracking_cryptocurrenc()
+
+    for symbol in iteration_symbols:
         try:
             data = get_symbol_24h_data(
                 symbol=symbol,
