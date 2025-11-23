@@ -1,3 +1,8 @@
 spoon-ai-sdk==0.3.3
 spoon-toolkits==0.2.2
 langchain-openai
+numpy == 1.24.3
+pandas == 2.1.1
+ta == 0.3.1
+os == 1.0.1
+json == 2.0.9
