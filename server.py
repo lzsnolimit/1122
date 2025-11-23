@@ -52,6 +52,11 @@ class Handler(BaseHTTPRequestHandler):
     def _handle_get_last_10_advises(self) -> None:
         try:
             items = db_service.get_last_10_advises()
+            # Ensure newest first by created_at as a safety net
+            try:
+                items.sort(key=lambda x: x.get("created_at", x.get("predicted_at", 0)), reverse=True)
+            except Exception:
+                pass
             body = json.dumps(items, ensure_ascii=False)
             self._write_headers(status=200)
             self.wfile.write(body.encode("utf-8"))

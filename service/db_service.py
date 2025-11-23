@@ -20,8 +20,8 @@ def get_last_10_advises() -> List[Dict[str, Any]]:
     """
     Fetch the most recent 10 investment advises from SQLite.
 
-    Sorting: predicted_at DESC, rowid DESC to ensure stable order when
-    predicted_at ties or is missing.
+    Sorting: Prefer created_at DESC when available; otherwise fall back to
+    predicted_at DESC. Use id DESC as a stable tie-breaker.
 
     Returns:
         A list of dictionaries with keys:
@@ -56,12 +56,22 @@ def get_last_10_advises() -> List[Dict[str, Any]]:
             "reason",
             "CAST(predicted_at AS INTEGER) AS predicted_at",
         ]
+        # Include created_at when present to allow clients to consume it
+        has_created_at = False
+        try:
+            has_created_at = "created_at" in col_names
+        except Exception:
+            has_created_at = False
+        if has_created_at:
+            select_cols.append("CAST(created_at AS INTEGER) AS created_at")
         select_cols.extend(present_optionals)
 
+        # Prefer ordering by created_at when available; else predicted_at
+        order_col = "created_at" if has_created_at else "predicted_at"
         sql = (
             "SELECT "
             + ",\n              ".join(select_cols)
-            + "\n            FROM advises\n            ORDER BY predicted_at DESC, rowid DESC\n            LIMIT 10"
+            + f"\n            FROM advises\n            ORDER BY {order_col} DESC, id DESC\n            LIMIT 10"
         )
 
         cur.execute(sql)
@@ -88,6 +98,12 @@ def get_last_10_advises() -> List[Dict[str, Any]]:
             # Ensure integer for API contract
             "predicted_at": int(r["predicted_at"]) if r["predicted_at"] is not None else None,
         }
+        # Include created_at when available
+        try:
+            if "created_at" in r.keys():
+                item["created_at"] = int(r["created_at"]) if r["created_at"] is not None else None
+        except Exception:
+            pass
         # Optional fields when present in schema
         try:
             keys = set(r.keys())

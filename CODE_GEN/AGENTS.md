@@ -2,6 +2,8 @@
 
 本文件为仓库范围的代理说明，指导代理生成符合需求的代码。请严格按下述步骤执行，做到“只做被要求的事”。
 
+重要说明：social_media_analysis.txt 中的 symbol 只有一个；生成的代码仅需处理该单一 symbol，不为多符号设计循环或并发。
+
 ## 背景资源文件
 - 读取 `resources/social_media_analysis.txt`（最近十分钟的社媒分析，含 symbol 与语义分析）中的symbol和reason。
 - 读取 `resources/` 目录下{{symbol}} 的最近 24 小时数据 `{{symbol}}.txt`。
@@ -14,11 +16,12 @@
   - 导入：`from development_process import dev_data_analysis`
 `from onchain_process import chain_data_analysis`
 `from technical_metrics_builder import market_data_analysis`
-  - 对social_media_analysis.txt你读取到的symbol：
+  - 对 social_media_analysis.txt 你读取到的单一 symbol：
     - 调用上述需要的函数，获取返回值；允许返回 `None`。
     - 将“函数介绍: 返回结果（字符串化）”拼接为单行或多行的 `summary`，例如：`market_data_analysis: None; dev_data_analysis: None; chain_data_analysis: None`。
     - 调用 `from final_analysis import llm_summary` 并执行：`llm_summary(symbol=symbol, analysis_results=summary)`。
-  - 添加最小化的错误处理：某一符号失败不影响其他符号；打印简洁日志。
+  - 仅处理一个 symbol，不进行列表循环或并发。
+  - 添加最小化的错误处理：失败被捕获并记录；打印简洁日志。
   - 你可以读取social_media_analysis的数据作为生成代码的依据，但是不需要在代码中读取这个文件。
   - 最小化生成代码，不要过度fallback
 - 验证运行：
@@ -31,6 +34,7 @@
 - 程序能：
   - 构造包含“函数名与返回结果”的 `summary` 并传入 `llm_summary`；
   - 对返回 `None` 的函数也要在 `summary` 中明确体现（如 `None`）。
+  - 仅处理单一 symbol，不存在多符号循环或并发逻辑。
 - 只新增main.py；遵循仓库既有结构与风格。
 
 ## 代码约束与风格
