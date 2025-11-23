@@ -66,9 +66,7 @@ async def async_get_symbol_24h_data(
             "exchange": exchange,
             "timeframe": timeframe,
             "bars": [],
-            "stats": {},
-            "source": "missing spoon_toolkits",
-            "error": "spoon_toolkits not available",
+            "stats": {}
         }
 
     # Include richer indicator config to return more data in each bar
@@ -110,9 +108,7 @@ async def async_get_symbol_24h_data(
                 "timeframe": timeframe,
                 "bars": [],
                 "stats": {},
-                "metadata": result.get("metadata", {}),
-                "source": source,
-                "error": result.get("error", "unknown error"),
+                "metadata": result.get("metadata", {})
             }
         bars = result.get("data", [])
         metadata = result.get("metadata", {})
@@ -133,9 +129,7 @@ async def async_get_symbol_24h_data(
                 "timeframe": timeframe,
                 "bars": [],
                 "stats": {},
-                "metadata": {},
-                "source": source,
-                "error": tool_result.error,
+                "metadata": {}
             }
         bars = tool_result.output or []
         metadata = {
@@ -250,9 +244,7 @@ async def async_get_symbol_24h_data(
             "log_return_24h_percent": log_return_24h_percent,
         },
         "indicators_latest": indicators_latest,
-        "metadata": metadata,
-        "source": source,
-        "error": None,
+        "metadata": metadata
     }
 
     # Drop None values from stats
