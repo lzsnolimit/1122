@@ -4,6 +4,7 @@ import os
 import re
 import sqlite3
 import time
+import sys
 from typing import Any, Dict, Optional
 
 try:
@@ -15,6 +16,11 @@ except Exception as e:  # pragma: no cover
 
 DB_PATH = "data.db"
 RESOURCES_DIR = "CODE_GEN/resources"
+
+# Ensure repository root is on sys.path for imports like `service.*`
+PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir))
+if PROJECT_ROOT not in sys.path:
+    sys.path.insert(0, PROJECT_ROOT)
 
 
 def _read_text(path: str) -> str:
@@ -332,4 +338,18 @@ def llm_summary(symbol: str, analysis_results: str) -> None:
         raise RuntimeError(f"Failed to insert advice: {e}")
 
 if __name__ == "__main__":
-    print(llm_summary(symbol="BTC", analysis_results="Data analysis is optimistic"))
+    # Invoke llm_summary once for every tracked symbol
+    try:
+        from service.cryptocurrency_service import get_tracking_cryptocurrenc
+    except Exception as e:  # pragma: no cover
+        raise RuntimeError(f"Failed to import tracking symbols: {e}")
+
+    symbols = get_tracking_cryptocurrenc()
+    for sym in symbols:
+        try:
+            result = llm_summary(symbol=sym, analysis_results="Data analysis is optimistic")
+            print(f"Processed {sym}: {bool(result)}")
+        except Exception as e:
+            # Continue processing other symbols if one fails
+            logging.error("Failed processing %s: %s", sym, e)
+            continue
