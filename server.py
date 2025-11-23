@@ -9,7 +9,7 @@ except Exception as e:  # pragma: no cover
     raise RuntimeError(f"Failed to import database service: {e}")
 
 
-HOST: str = "127.0.0.1"
+HOST: str = "0.0.0.0"
 PORT: int = 8000
 
 
