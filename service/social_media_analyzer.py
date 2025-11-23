@@ -1,5 +1,18 @@
 """
 分析 Data.pdf 中的社交媒体内容，找出最需要关注的加密货币符号
+
+环境变量设置：
+在运行此脚本前，请设置以下环境变量：
+
+export OPENAI_API_KEY="your-openai-api-key-here"
+export OPENAI_MODEL="gpt-4o"
+export OPENAI_MAX_TOKENS="2000"
+
+使用示例：
+export OPENAI_API_KEY="sk-proj-..."
+export OPENAI_MODEL="gpt-4o"
+export OPENAI_MAX_TOKENS="2000"
+python service/social_media_analyzer.py
 """
 
 from openai import OpenAI
@@ -7,11 +20,7 @@ import os
 import json
 import logging
 from datetime import datetime
-from dotenv import load_dotenv
 import PyPDF2
-
-# 加载环境变量
-load_dotenv()
 
 # 配置日志
 logging.basicConfig(
