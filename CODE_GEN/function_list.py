@@ -1,31 +1,27 @@
 def market_data_analysis(symbol):
     """
-    Wrapper function to load data and apply ALL metrics (Basic + Advanced).
+    Wrapper function to load data, generate technical metrics, and return a filtered set of predictive signals.
 
     Input:
-        symbol (str): The ticker symbol of the asset ("USDT","BTC","ETH","USDC","SOL","XRP","ZEC","BNB","DOGE").
+        symbol (str): The ticker symbol of the asset (e.g., "BTC", "ETH").
                       Implicitly requires a JSON file at '../CODE_GEN/resources/{symbol}.txt'.
 
     Output:
-        pd.DataFrame: A DataFrame indexed by timestamp containing OHLCV data and all calculated indicators.
+        pd.DataFrame: A concise DataFrame indexed by timestamp, containing ONLY high-value predictive indicators
+                      (Raw prices and intermediate moving averages are stripped).
 
-    Execution Logic & Calculated Indicators:
-        1. Data Loading:
-           - Reads JSON, parses timestamps, ensures numeric types.
-           - Preserves existing JSON indicators.
+    Execution Logic & Returned Metrics:
+        1. Data Loading & Processing:
+           - Loads raw OHLCV data from JSON.
+           - Calculates comprehensive technical indicators (Basic + Advanced).
 
-        2. Basic Indicators (using 'ta' library):
-           - Trend: EMA_12, EMA_26, SMA_20, MACD (Line, Signal, Hist), CCI_14.
-           - Momentum: RSI_14, STOCH (k, d).
-           - Volatility: ATR_14, Bollinger Bands (Upper, Lower, Middle).
-           - Volume: OBV_calc.
-
-        3. Advanced Metrics:
-           - VWAP_24: Rolling 24-period Volume Weighted Average Price.
-           - CMF_20: Chaikin Money Flow.
-           - CHOP_14: Choppiness Index (Trend vs Consolidation).
-           - Linear Regression Channel: LinReg_Mid, LinReg_Std, LinReg_Upper, LinReg_Lower.
-           - Price_Outlier: Statistical outlier signal (1, -1, 0).
+        2. Feature Selection (Filtering):
+           - Context: Close_Price.
+           - Momentum: RSI_14 (Oversold/Overbought), MACD_Hist (Momentum Shift), CCI_14 (Cyclic Trend).
+           - Volatility: BB_Pct_B (Position relative to Bands), ATR_14 (Volatility Magnitude).
+           - Volume & Flow: CMF_20 (Money Flow Pressure), OBV_calc (Volume Trend).
+           - Market Structure: CHOP_14 (Trend Efficiency), VWAP_Dev_Pct (Mean Reversion Potential).
+           - Statistical Extremes: Reg_Outlier_Signal (Linear Regression Confidence Interval Breaches).
     """
     pass
 
