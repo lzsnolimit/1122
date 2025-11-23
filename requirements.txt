@@ -4,3 +4,4 @@ langchain-openai
 numpy == 1.26.4
 pandas == 2.1.1
 ta == 0.11.0
+PyPDF2
