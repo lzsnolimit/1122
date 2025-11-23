@@ -1,14 +1,14 @@
 """
-分析 Data.pdf 中的社交媒体内容，找出最需要关注的加密货币符号
+Analyze social media content in Data.pdf to identify the cryptocurrency symbol requiring the most attention.
 
-环境变量设置：
-在运行此脚本前，请设置以下环境变量：
+Environment Variables Setup:
+Before running this script, please set the following environment variables:
 
 export OPENAI_API_KEY="your-openai-api-key-here"
 export OPENAI_MODEL="gpt-4o"
 export OPENAI_MAX_TOKENS="2000"
 
-使用示例：
+Usage Example:
 export OPENAI_API_KEY="sk-proj-..."
 export OPENAI_MODEL="gpt-4o"
 export OPENAI_MAX_TOKENS="2000"
@@ -22,7 +22,7 @@ import logging
 from datetime import datetime
 import PyPDF2
 
-# 配置日志
+# Configure logging
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
@@ -31,31 +31,31 @@ logger = logging.getLogger(__name__)
 
 
 class SocialMediaAnalyzer:
-    """社交媒体加密货币分析器"""
+    """Social Media Cryptocurrency Analyzer"""
 
     def __init__(self):
-        """初始化分析器"""
+        """Initialize the analyzer"""
         self.api_key = os.environ.get('OPENAI_API_KEY')
         if not self.api_key:
-            raise ValueError("OPENAI_API_KEY 环境变量未设置")
+            raise ValueError("OPENAI_API_KEY environment variable not set")
 
         self.client = OpenAI(api_key=self.api_key)
         self.model_name = os.environ.get('OPENAI_MODEL', 'gpt-4o')
 
-        logger.info(f"初始化社交媒体分析器，使用模型: {self.model_name}")
+        logger.info(f"Initializing Social Media Analyzer, using model: {self.model_name}")
 
     def read_pdf(self, pdf_path: str) -> str:
         """
-        读取 PDF 文件内容
+        Read content from a PDF file.
 
         Args:
-            pdf_path: PDF 文件路径
+            pdf_path: Path to the PDF file.
 
         Returns:
-            PDF 文本内容
+            Text content of the PDF.
         """
         try:
-            logger.info(f"正在读取 PDF 文件: {pdf_path}")
+            logger.info(f"Reading PDF file: {pdf_path}")
 
             with open(pdf_path, 'rb') as file:
                 pdf_reader = PyPDF2.PdfReader(file)
@@ -65,64 +65,64 @@ class SocialMediaAnalyzer:
                     page = pdf_reader.pages[page_num]
                     text += page.extract_text() + "\n\n"
 
-            logger.info(f"成功读取 {len(pdf_reader.pages)} 页 PDF 内容")
+            logger.info(f"Successfully read {len(pdf_reader.pages)} pages from PDF")
             return text
 
         except Exception as e:
-            logger.error(f"读取 PDF 失败: {str(e)}")
+            logger.error(f"Failed to read PDF: {str(e)}")
             raise
 
     def analyze_symbols(self, pdf_content: str, symbols: list) -> dict:
         """
-        分析加密货币符号，找出最需要关注的
+        Analyze cryptocurrency symbols to find the one requiring the most attention.
 
         Args:
-            pdf_content: PDF 文本内容
-            symbols: 要分析的加密货币符号列表
+            pdf_content: Text content of the PDF.
+            symbols: List of cryptocurrency symbols to analyze.
 
         Returns:
-            分析结果的 JSON 字典
+            JSON dictionary of the analysis result.
         """
         try:
-            logger.info(f"开始分析 {len(symbols)} 个加密货币符号...")
+            logger.info(f"Starting analysis for {len(symbols)} cryptocurrency symbols...")
 
-            # 构建提示词
-            prompt = f"""你是一位专业的加密货币市场分析师和社交媒体情报分析专家。
+            # Construct the prompt
+            prompt = f"""You are a professional cryptocurrency market analyst and social media intelligence expert.
 
-请仔细阅读以下来自加密货币行业关键意见领袖（KOL）的社交媒体内容：
+Please carefully read the following social media content from Key Opinion Leaders (KOLs) in the crypto industry:
 
 {pdf_content}
 
 ---
 
-现在，请分析以下加密货币符号，找出**最需要关注（attention）的符号**，并提供详细的理由：
+Now, please analyze the following cryptocurrency symbols to identify the **symbol requiring the most attention**, and provide a detailed reason:
 
-符号列表：{', '.join(symbols)}
+Symbol List: {', '.join(symbols)}
 
-分析维度：
-1. **社交媒体提及频率**：在 PDF 内容中被提及的次数和重要性
-2. **关键人物态度**：孙宇晨、何一、赵长鹏等 KOL 对该币种的态度和评论
-3. **项目动态**：提到的项目更新、合作、技术进展等
-4. **市场情绪**：社交媒体传递的正面/负面情绪
-5. **潜在风险或机会**：基于社交媒体内容识别的风险点或机会点
-6. **交易所支持**：币安等主要交易所的支持情况
+Analysis Dimensions:
+1. **Social Media Mention Frequency**: Number of mentions and importance within the PDF content.
+2. **KOL Attitude**: Attitudes and comments from KOLs (e.g., Justin Sun, He Yi, CZ, etc.) regarding the coin.
+3. **Project Updates**: Mentioned project updates, partnerships, technical progress, etc.
+4. **Market Sentiment**: Positive/Negative sentiment conveyed by social media.
+5. **Potential Risks or Opportunities**: Risks or opportunities identified based on social media content.
+6. **Exchange Support**: Support status from major exchanges like Binance.
 
-请以 JSON 格式返回分析结果，只包含最需要关注的一个 symbol 和一个最重要的原因：
+Please return the analysis result in JSON format, containing only the one symbol that needs the most attention and the most important reason:
 {{
-    "symbol": "最需要关注的符号名称",
-    "reason": "最重要的需要关注的原因（一句话，简洁明了）"
+    "symbol": "The symbol name requiring the most attention",
+    "reason": "The most important reason and trend (one concise sentence) along with an estimated accuracy score (float between 0-1)"
 }}
 
-**重要**：只返回有效的 JSON 对象，不要添加其他解释文字。
+**IMPORTANT**: Return only a valid JSON object. Do not add any other explanatory text.
 """
 
-            # 调用 OpenAI API
+            # Call OpenAI API
             response = self.client.chat.completions.create(
                 model=self.model_name,
                 messages=[
                     {
                         "role": "system",
-                        "content": "你是一位专业的加密货币市场分析师和社交媒体情报分析专家，擅长从社交媒体内容中提取关键信息并进行深度分析。"
+                        "content": "You are a professional cryptocurrency market analyst and social media intelligence expert, skilled at extracting key information from social media content and conducting in-depth analysis."
                     },
                     {
                         "role": "user",
@@ -134,14 +134,14 @@ class SocialMediaAnalyzer:
                 response_format={"type": "json_object"}
             )
 
-            # 解析响应
+            # Parse response
             result = json.loads(response.choices[0].message.content)
 
-            logger.info("分析完成")
+            logger.info("Analysis complete")
             return result
 
         except Exception as e:
-            logger.error(f"分析失败: {str(e)}")
+            logger.error(f"Analysis failed: {str(e)}")
             return {
                 'success': False,
                 'error': str(e),
@@ -150,60 +150,60 @@ class SocialMediaAnalyzer:
 
     def save_result(self, result: dict, output_path: str):
         """
-        保存分析结果到文件
+        Save analysis result to a file.
 
         Args:
-            result: 分析结果字典
-            output_path: 输出文件路径
+            result: Analysis result dictionary.
+            output_path: Output file path.
         """
         try:
-            # 确保目录存在
+            # Ensure directory exists
             os.makedirs(os.path.dirname(output_path), exist_ok=True)
 
-            # 保存 JSON 结果
+            # Save JSON result
             with open(output_path, 'w', encoding='utf-8') as f:
                 json.dump(result, f, indent=2, ensure_ascii=False)
 
-            logger.info(f"分析结果已保存到: {output_path}")
+            logger.info(f"Analysis result saved to: {output_path}")
 
         except Exception as e:
-            logger.error(f"保存结果失败: {str(e)}")
+            logger.error(f"Failed to save result: {str(e)}")
             raise
 
 
 def main():
-    """主函数"""
-    # 获取项目根目录
+    """Main function"""
+    # Get project root directory
     script_dir = os.path.dirname(os.path.abspath(__file__))
     project_root = os.path.dirname(script_dir)
 
-    # 配置参数
+    # Configuration parameters
     PDF_PATH = os.path.join(project_root, "Data.pdf")
     OUTPUT_PATH = os.path.join(project_root, "CODE_GEN/resources/social_media_analysis.txt")
     SYMBOLS = ["USDT", "BTC", "ETH", "USDC", "SOL", "XRP", "ZEC", "BNB", "DOGE"]
 
-    # 创建分析器
+    # Create analyzer
     analyzer = SocialMediaAnalyzer()
 
-    # 读取 PDF
+    # Read PDF
     pdf_content = analyzer.read_pdf(PDF_PATH)
 
-    # 分析符号
+    # Analyze symbols
     result = analyzer.analyze_symbols(pdf_content, SYMBOLS)
 
-    # 保存结果
+    # Save result
     analyzer.save_result(result, OUTPUT_PATH)
 
-    # 打印结果摘要
+    # Print result summary
     print("\n" + "="*80)
-    print("分析完成！")
+    print("Analysis Complete!")
     print("="*80)
-    print(f"\n结果已保存到: {OUTPUT_PATH}\n")
+    print(f"\nResult saved to: {OUTPUT_PATH}\n")
 
     if 'symbol' in result:
-        print("最需要关注的加密货币：\n")
+        print("Most noteworthy cryptocurrency:\n")
         print(f"  Symbol: {result['symbol']}")
-        print(f"  原因: {result['reason']}")
+        print(f"  Reason: {result['reason']}")
         print()
 
 
