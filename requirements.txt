@@ -1,8 +1,2 @@
 spoon-ai-sdk==0.3.3
 spoon-toolkits==0.2.2
-
-data_source
-blockchain_data_source 区块链数据（如比特币、以太坊等）、交易时间、价格、成交量、钱包地址、交易哈希等
-trading_data_source 交易平台Binance,OKX等内容、交易时间、价格、成交量
-social_data_source 社交媒体Twitter,Reddit,Discord等内容、发布时间、点赞/评论数 同样也包括交易平台自带社区等
-development_tools github，gitlab等开源社区相关代码提交次数，活跃度，贡献者数量，更新频率
