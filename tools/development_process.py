@@ -65,3 +65,12 @@ def load_raw_dev_data(symbol):
     df.set_index('timestamp', inplace=True)
     
     return df
+
+def dev_data_analysis(symbol):
+    df = load_raw_dev_data(symbol)
+    if df.empty:
+        return df
+        
+    df = calculate_development_metrics(df)
+
+    return df

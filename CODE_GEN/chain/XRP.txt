@@ -1,0 +1,1067 @@
+{
+  "symbol": "XRP",
+  "source": "chain_node_simulator_v1",
+  "meta": {
+    "generated_at": "2025-11-23T06:03:00.748972",
+    "period": "24h",
+    "granularity": "30min"
+  },
+  "chain_data": [
+    {
+      "timestamp": "2025-11-22T06:30:00Z",
+      "block_summary": {
+        "height": 7991594,
+        "block_time_avg": 12
+      },
+      "transaction_metrics": {
+        "count": 400,
+        "volume_usd": 12661945.45,
+        "avg_fee_usd": 0.0064
+      },
+      "network_activity": {
+        "active_addresses": 579,
+        "new_addresses": 45
+      },
+      "valuation_metrics": {
+        "utxo_realized_price": 91.96
+      },
+      "supply_distribution": {
+        "whale_aggregate_balance": 100097093.38
+      }
+    },
+    {
+      "timestamp": "2025-11-22T07:00:00Z",
+      "block_summary": {
+        "height": 7991994,
+        "block_time_avg": 12
+      },
+      "transaction_metrics": {
+        "count": 594,
+        "volume_usd": 10670885.88,
+        "avg_fee_usd": 0.0141
+      },
+      "network_activity": {
+        "active_addresses": 908,
+        "new_addresses": 71
+      },
+      "valuation_metrics": {
+        "utxo_realized_price": 85.83
+      },
+      "supply_distribution": {
+        "whale_aggregate_balance": 100119038.35
+      }
+    },
+    {
+      "timestamp": "2025-11-22T07:30:00Z",
+      "block_summary": {
+        "height": 7992394,
+        "block_time_avg": 12
+      },
+      "transaction_metrics": {
+        "count": 461,
+        "volume_usd": 9059054.13,
+        "avg_fee_usd": 0.0085
+      },
+      "network_activity": {
+        "active_addresses": 825,
+        "new_addresses": 116
+      },
+      "valuation_metrics": {
+        "utxo_realized_price": 93.46
+      },
+      "supply_distribution": {
+        "whale_aggregate_balance": 100102078.28
+      }
+    },
+    {
+      "timestamp": "2025-11-22T08:00:00Z",
+      "block_summary": {
+        "height": 7992794,
+        "block_time_avg": 12
+      },
+      "transaction_metrics": {
+        "count": 687,
+        "volume_usd": 8910138.85,
+        "avg_fee_usd": 0.0189
+      },
+      "network_activity": {
+        "active_addresses": 1233,
+        "new_addresses": 165
+      },
+      "valuation_metrics": {
+        "utxo_realized_price": 86.06
+      },
+      "supply_distribution": {
+        "whale_aggregate_balance": 100053695.02
+      }
+    },
+    {
+      "timestamp": "2025-11-22T08:30:00Z",
+      "block_summary": {
+        "height": 7993194,
+        "block_time_avg": 12
+      },
+      "transaction_metrics": {
+        "count": 748,
+        "volume_usd": 17877905.89,
+        "avg_fee_usd": 0.0224
+      },
+      "network_activity": {
+        "active_addresses": 1250,
+        "new_addresses": 179
+      },
+      "valuation_metrics": {
+        "utxo_realized_price": 81.71
+      },
+      "supply_distribution": {
+        "whale_aggregate_balance": 100069727.44
+      }
+    },
+    {
+      "timestamp": "2025-11-22T09:00:00Z",
+      "block_summary": {
+        "height": 7993594,
+        "block_time_avg": 12
+      },
+      "transaction_metrics": {
+        "count": 734,
+        "volume_usd": 14034466.22,
+        "avg_fee_usd": 0.0216
+      },
+      "network_activity": {
+        "active_addresses": 1316,
+        "new_addresses": 140
+      },
+      "valuation_metrics": {
+        "utxo_realized_price": 93.79
+      },
+      "supply_distribution": {
+        "whale_aggregate_balance": 100119084.66
+      }
+    },
+    {
+      "timestamp": "2025-11-22T09:30:00Z",
+      "block_summary": {
+        "height": 7993994,
+        "block_time_avg": 12
+      },
+      "transaction_metrics": {
+        "count": 689,
+        "volume_usd": 15811490.48,
+        "avg_fee_usd": 0.019
+      },
+      "network_activity": {
+        "active_addresses": 870,
+        "new_addresses": 64
+      },
+      "valuation_metrics": {
+        "utxo_realized_price": 85.82
+      },
+      "supply_distribution": {
+        "whale_aggregate_balance": 100103632.58
+      }
+    },
+    {
+      "timestamp": "2025-11-22T10:00:00Z",
+      "block_summary": {
+        "height": 7994394,
+        "block_time_avg": 12
+      },
+      "transaction_metrics": {
+        "count": 719,
+        "volume_usd": 24626022.42,
+        "avg_fee_usd": 0.0207
+      },
+      "network_activity": {
+        "active_addresses": 1089,
+        "new_addresses": 135
+      },
+      "valuation_metrics": {
+        "utxo_realized_price": 87.06
+      },
+      "supply_distribution": {
+        "whale_aggregate_balance": 100139256.26
+      }
+    },
+    {
+      "timestamp": "2025-11-22T10:30:00Z",
+      "block_summary": {
+        "height": 7994794,
+        "block_time_avg": 12
+      },
+      "transaction_metrics": {
+        "count": 516,
+        "volume_usd": 7722755.55,
+        "avg_fee_usd": 0.0107
+      },
+      "network_activity": {
+        "active_addresses": 765,
+        "new_addresses": 61
+      },
+      "valuation_metrics": {
+        "utxo_realized_price": 94.08
+      },
+      "supply_distribution": {
+        "whale_aggregate_balance": 100171118.97
+      }
+    },
+    {
+      "timestamp": "2025-11-22T11:00:00Z",
+      "block_summary": {
+        "height": 7995194,
+        "block_time_avg": 12
+      },
+      "transaction_metrics": {
+        "count": 480,
+        "volume_usd": 17797989.29,
+        "avg_fee_usd": 0.0092
+      },
+      "network_activity": {
+        "active_addresses": 743,
+        "new_addresses": 41
+      },
+      "valuation_metrics": {
+        "utxo_realized_price": 91.49
+      },
+      "supply_distribution": {
+        "whale_aggregate_balance": 100152299.85
+      }
+    },
+    {
+      "timestamp": "2025-11-22T11:30:00Z",
+      "block_summary": {
+        "height": 7995594,
+        "block_time_avg": 12
+      },
+      "transaction_metrics": {
+        "count": 486,
+        "volume_usd": 18153866.38,
+        "avg_fee_usd": 0.0095
+      },
+      "network_activity": {
+        "active_addresses": 658,
+        "new_addresses": 45
+      },
+      "valuation_metrics": {
+        "utxo_realized_price": 85.13
+      },
+      "supply_distribution": {
+        "whale_aggregate_balance": 100146303.42
+      }
+    },
+    {
+      "timestamp": "2025-11-22T12:00:00Z",
+      "block_summary": {
+        "height": 7995994,
+        "block_time_avg": 12
+      },
+      "transaction_metrics": {
+        "count": 590,
+        "volume_usd": 16601622.71,
+        "avg_fee_usd": 0.014
+      },
+      "network_activity": {
+        "active_addresses": 985,
+        "new_addresses": 65
+      },
+      "valuation_metrics": {
+        "utxo_realized_price": 83.13
+      },
+      "supply_distribution": {
+        "whale_aggregate_balance": 100114393.74
+      }
+    },
+    {
+      "timestamp": "2025-11-22T12:30:00Z",
+      "block_summary": {
+        "height": 7996394,
+        "block_time_avg": 12
+      },
+      "transaction_metrics": {
+        "count": 519,
+        "volume_usd": 18675184.28,
+        "avg_fee_usd": 0.0108
+      },
+      "network_activity": {
+        "active_addresses": 758,
+        "new_addresses": 67
+      },
+      "valuation_metrics": {
+        "utxo_realized_price": 93.43
+      },
+      "supply_distribution": {
+        "whale_aggregate_balance": 100110569.85
+      }
+    },
+    {
+      "timestamp": "2025-11-22T13:00:00Z",
+      "block_summary": {
+        "height": 7996794,
+        "block_time_avg": 12
+      },
+      "transaction_metrics": {
+        "count": 564,
+        "volume_usd": 13253249.57,
+        "avg_fee_usd": 0.0127
+      },
+      "network_activity": {
+        "active_addresses": 948,
+        "new_addresses": 61
+      },
+      "valuation_metrics": {
+        "utxo_realized_price": 84.65
+      },
+      "supply_distribution": {
+        "whale_aggregate_balance": 100106394.09
+      }
+    },
+    {
+      "timestamp": "2025-11-22T13:30:00Z",
+      "block_summary": {
+        "height": 7997194,
+        "block_time_avg": 12
+      },
+      "transaction_metrics": {
+        "count": 521,
+        "volume_usd": 20677012.24,
+        "avg_fee_usd": 0.0109
+      },
+      "network_activity": {
+        "active_addresses": 721,
+        "new_addresses": 99
+      },
+      "valuation_metrics": {
+        "utxo_realized_price": 94.38
+      },
+      "supply_distribution": {
+        "whale_aggregate_balance": 100076531.04
+      }
+    },
+    {
+      "timestamp": "2025-11-22T14:00:00Z",
+      "block_summary": {
+        "height": 7997594,
+        "block_time_avg": 12
+      },
+      "transaction_metrics": {
+        "count": 643,
+        "volume_usd": 17546483.11,
+        "avg_fee_usd": 0.0166
+      },
+      "network_activity": {
+        "active_addresses": 1018,
+        "new_addresses": 98
+      },
+      "valuation_metrics": {
+        "utxo_realized_price": 91.76
+      },
+      "supply_distribution": {
+        "whale_aggregate_balance": 100034399.42
+      }
+    },
+    {
+      "timestamp": "2025-11-22T14:30:00Z",
+      "block_summary": {
+        "height": 7997994,
+        "block_time_avg": 12
+      },
+      "transaction_metrics": {
+        "count": 641,
+        "volume_usd": 8782180.86,
+        "avg_fee_usd": 0.0165
+      },
+      "network_activity": {
+        "active_addresses": 991,
+        "new_addresses": 73
+      },
+      "valuation_metrics": {
+        "utxo_realized_price": 81.28
+      },
+      "supply_distribution": {
+        "whale_aggregate_balance": 100022018.08
+      }
+    },
+    {
+      "timestamp": "2025-11-22T15:00:00Z",
+      "block_summary": {
+        "height": 7998394,
+        "block_time_avg": 12
+      },
+      "transaction_metrics": {
+        "count": 440,
+        "volume_usd": 9668373.12,
+        "avg_fee_usd": 0.0078
+      },
+      "network_activity": {
+        "active_addresses": 723,
+        "new_addresses": 87
+      },
+      "valuation_metrics": {
+        "utxo_realized_price": 80.12
+      },
+      "supply_distribution": {
+        "whale_aggregate_balance": 100056161.0
+      }
+    },
+    {
+      "timestamp": "2025-11-22T15:30:00Z",
+      "block_summary": {
+        "height": 7998794,
+        "block_time_avg": 12
+      },
+      "transaction_metrics": {
+        "count": 697,
+        "volume_usd": 8699845.29,
+        "avg_fee_usd": 0.0195
+      },
+      "network_activity": {
+        "active_addresses": 948,
+        "new_addresses": 89
+      },
+      "valuation_metrics": {
+        "utxo_realized_price": 94.27
+      },
+      "supply_distribution": {
+        "whale_aggregate_balance": 100029148.77
+      }
+    },
+    {
+      "timestamp": "2025-11-22T16:00:00Z",
+      "block_summary": {
+        "height": 7999194,
+        "block_time_avg": 12
+      },
+      "transaction_metrics": {
+        "count": 426,
+        "volume_usd": 6017016.07,
+        "avg_fee_usd": 0.0073
+      },
+      "network_activity": {
+        "active_addresses": 675,
+        "new_addresses": 97
+      },
+      "valuation_metrics": {
+        "utxo_realized_price": 87.19
+      },
+      "supply_distribution": {
+        "whale_aggregate_balance": 99998794.7
+      }
+    },
+    {
+      "timestamp": "2025-11-22T16:30:00Z",
+      "block_summary": {
+        "height": 7999594,
+        "block_time_avg": 12
+      },
+      "transaction_metrics": {
+        "count": 673,
+        "volume_usd": 13570565.95,
+        "avg_fee_usd": 0.0181
+      },
+      "network_activity": {
+        "active_addresses": 880,
+        "new_addresses": 89
+      },
+      "valuation_metrics": {
+        "utxo_realized_price": 87.52
+      },
+      "supply_distribution": {
+        "whale_aggregate_balance": 99959082.21
+      }
+    },
+    {
+      "timestamp": "2025-11-22T17:00:00Z",
+      "block_summary": {
+        "height": 7999994,
+        "block_time_avg": 12
+      },
+      "transaction_metrics": {
+        "count": 587,
+        "volume_usd": 21465792.9,
+        "avg_fee_usd": 0.0138
+      },
+      "network_activity": {
+        "active_addresses": 874,
+        "new_addresses": 125
+      },
+      "valuation_metrics": {
+        "utxo_realized_price": 83.85
+      },
+      "supply_distribution": {
+        "whale_aggregate_balance": 99913656.76
+      }
+    },
+    {
+      "timestamp": "2025-11-22T17:30:00Z",
+      "block_summary": {
+        "height": 8000394,
+        "block_time_avg": 12
+      },
+      "transaction_metrics": {
+        "count": 616,
+        "volume_usd": 8075781.81,
+        "avg_fee_usd": 0.0152
+      },
+      "network_activity": {
+        "active_addresses": 944,
+        "new_addresses": 137
+      },
+      "valuation_metrics": {
+        "utxo_realized_price": 87.61
+      },
+      "supply_distribution": {
+        "whale_aggregate_balance": 99951790.67
+      }
+    },
+    {
+      "timestamp": "2025-11-22T18:00:00Z",
+      "block_summary": {
+        "height": 8000794,
+        "block_time_avg": 12
+      },
+      "transaction_metrics": {
+        "count": 426,
+        "volume_usd": 7022065.31,
+        "avg_fee_usd": 0.0073
+      },
+      "network_activity": {
+        "active_addresses": 718,
+        "new_addresses": 55
+      },
+      "valuation_metrics": {
+        "utxo_realized_price": 85.02
+      },
+      "supply_distribution": {
+        "whale_aggregate_balance": 99958730.49
+      }
+    },
+    {
+      "timestamp": "2025-11-22T18:30:00Z",
+      "block_summary": {
+        "height": 8001194,
+        "block_time_avg": 12
+      },
+      "transaction_metrics": {
+        "count": 714,
+        "volume_usd": 28111529.7,
+        "avg_fee_usd": 0.0204
+      },
+      "network_activity": {
+        "active_addresses": 1280,
+        "new_addresses": 112
+      },
+      "valuation_metrics": {
+        "utxo_realized_price": 90.65
+      },
+      "supply_distribution": {
+        "whale_aggregate_balance": 99987235.53
+      }
+    },
+    {
+      "timestamp": "2025-11-22T19:00:00Z",
+      "block_summary": {
+        "height": 8001594,
+        "block_time_avg": 12
+      },
+      "transaction_metrics": {
+        "count": 640,
+        "volume_usd": 23160627.33,
+        "avg_fee_usd": 0.0164
+      },
+      "network_activity": {
+        "active_addresses": 1003,
+        "new_addresses": 100
+      },
+      "valuation_metrics": {
+        "utxo_realized_price": 93.22
+      },
+      "supply_distribution": {
+        "whale_aggregate_balance": 99940056.14
+      }
+    },
+    {
+      "timestamp": "2025-11-22T19:30:00Z",
+      "block_summary": {
+        "height": 8001994,
+        "block_time_avg": 12
+      },
+      "transaction_metrics": {
+        "count": 731,
+        "volume_usd": 27329970.38,
+        "avg_fee_usd": 0.0214
+      },
+      "network_activity": {
+        "active_addresses": 907,
+        "new_addresses": 63
+      },
+      "valuation_metrics": {
+        "utxo_realized_price": 94.96
+      },
+      "supply_distribution": {
+        "whale_aggregate_balance": 99950083.23
+      }
+    },
+    {
+      "timestamp": "2025-11-22T20:00:00Z",
+      "block_summary": {
+        "height": 8002394,
+        "block_time_avg": 12
+      },
+      "transaction_metrics": {
+        "count": 481,
+        "volume_usd": 18039996.34,
+        "avg_fee_usd": 0.0093
+      },
+      "network_activity": {
+        "active_addresses": 729,
+        "new_addresses": 90
+      },
+      "valuation_metrics": {
+        "utxo_realized_price": 88.58
+      },
+      "supply_distribution": {
+        "whale_aggregate_balance": 99908129.31
+      }
+    },
+    {
+      "timestamp": "2025-11-22T20:30:00Z",
+      "block_summary": {
+        "height": 8002794,
+        "block_time_avg": 12
+      },
+      "transaction_metrics": {
+        "count": 716,
+        "volume_usd": 20392048.91,
+        "avg_fee_usd": 0.0206
+      },
+      "network_activity": {
+        "active_addresses": 1048,
+        "new_addresses": 144
+      },
+      "valuation_metrics": {
+        "utxo_realized_price": 89.15
+      },
+      "supply_distribution": {
+        "whale_aggregate_balance": 99947465.77
+      }
+    },
+    {
+      "timestamp": "2025-11-22T21:00:00Z",
+      "block_summary": {
+        "height": 8003194,
+        "block_time_avg": 12
+      },
+      "transaction_metrics": {
+        "count": 735,
+        "volume_usd": 14897769.13,
+        "avg_fee_usd": 0.0216
+      },
+      "network_activity": {
+        "active_addresses": 1153,
+        "new_addresses": 82
+      },
+      "valuation_metrics": {
+        "utxo_realized_price": 94.77
+      },
+      "supply_distribution": {
+        "whale_aggregate_balance": 99935278.19
+      }
+    },
+    {
+      "timestamp": "2025-11-22T21:30:00Z",
+      "block_summary": {
+        "height": 8003594,
+        "block_time_avg": 12
+      },
+      "transaction_metrics": {
+        "count": 612,
+        "volume_usd": 7836530.3,
+        "avg_fee_usd": 0.015
+      },
+      "network_activity": {
+        "active_addresses": 814,
+        "new_addresses": 86
+      },
+      "valuation_metrics": {
+        "utxo_realized_price": 84.67
+      },
+      "supply_distribution": {
+        "whale_aggregate_balance": 99981049.1
+      }
+    },
+    {
+      "timestamp": "2025-11-22T22:00:00Z",
+      "block_summary": {
+        "height": 8003994,
+        "block_time_avg": 12
+      },
+      "transaction_metrics": {
+        "count": 468,
+        "volume_usd": 6157578.83,
+        "avg_fee_usd": 0.0088
+      },
+      "network_activity": {
+        "active_addresses": 585,
+        "new_addresses": 69
+      },
+      "valuation_metrics": {
+        "utxo_realized_price": 89.96
+      },
+      "supply_distribution": {
+        "whale_aggregate_balance": 100023717.69
+      }
+    },
+    {
+      "timestamp": "2025-11-22T22:30:00Z",
+      "block_summary": {
+        "height": 8004394,
+        "block_time_avg": 12
+      },
+      "transaction_metrics": {
+        "count": 501,
+        "volume_usd": 19779585.73,
+        "avg_fee_usd": 0.01
+      },
+      "network_activity": {
+        "active_addresses": 686,
+        "new_addresses": 71
+      },
+      "valuation_metrics": {
+        "utxo_realized_price": 85.93
+      },
+      "supply_distribution": {
+        "whale_aggregate_balance": 100039412.27
+      }
+    },
+    {
+      "timestamp": "2025-11-22T23:00:00Z",
+      "block_summary": {
+        "height": 8004794,
+        "block_time_avg": 12
+      },
+      "transaction_metrics": {
+        "count": 670,
+        "volume_usd": 23406564.42,
+        "avg_fee_usd": 0.018
+      },
+      "network_activity": {
+        "active_addresses": 1170,
+        "new_addresses": 116
+      },
+      "valuation_metrics": {
+        "utxo_realized_price": 87.71
+      },
+      "supply_distribution": {
+        "whale_aggregate_balance": 100019772.81
+      }
+    },
+    {
+      "timestamp": "2025-11-22T23:30:00Z",
+      "block_summary": {
+        "height": 8005194,
+        "block_time_avg": 12
+      },
+      "transaction_metrics": {
+        "count": 590,
+        "volume_usd": 7222252.72,
+        "avg_fee_usd": 0.0139
+      },
+      "network_activity": {
+        "active_addresses": 882,
+        "new_addresses": 60
+      },
+      "valuation_metrics": {
+        "utxo_realized_price": 87.99
+      },
+      "supply_distribution": {
+        "whale_aggregate_balance": 99997107.76
+      }
+    },
+    {
+      "timestamp": "2025-11-23T00:00:00Z",
+      "block_summary": {
+        "height": 8005594,
+        "block_time_avg": 12
+      },
+      "transaction_metrics": {
+        "count": 535,
+        "volume_usd": 6692030.53,
+        "avg_fee_usd": 0.0115
+      },
+      "network_activity": {
+        "active_addresses": 676,
+        "new_addresses": 59
+      },
+      "valuation_metrics": {
+        "utxo_realized_price": 87.83
+      },
+      "supply_distribution": {
+        "whale_aggregate_balance": 99968883.24
+      }
+    },
+    {
+      "timestamp": "2025-11-23T00:30:00Z",
+      "block_summary": {
+        "height": 8005994,
+        "block_time_avg": 12
+      },
+      "transaction_metrics": {
+        "count": 408,
+        "volume_usd": 11803076.6,
+        "avg_fee_usd": 0.0067
+      },
+      "network_activity": {
+        "active_addresses": 722,
+        "new_addresses": 87
+      },
+      "valuation_metrics": {
+        "utxo_realized_price": 90.72
+      },
+      "supply_distribution": {
+        "whale_aggregate_balance": 99954805.87
+      }
+    },
+    {
+      "timestamp": "2025-11-23T01:00:00Z",
+      "block_summary": {
+        "height": 8006394,
+        "block_time_avg": 12
+      },
+      "transaction_metrics": {
+        "count": 655,
+        "volume_usd": 13056236.65,
+        "avg_fee_usd": 0.0172
+      },
+      "network_activity": {
+        "active_addresses": 899,
+        "new_addresses": 50
+      },
+      "valuation_metrics": {
+        "utxo_realized_price": 90.71
+      },
+      "supply_distribution": {
+        "whale_aggregate_balance": 99920828.75
+      }
+    },
+    {
+      "timestamp": "2025-11-23T01:30:00Z",
+      "block_summary": {
+        "height": 8006794,
+        "block_time_avg": 12
+      },
+      "transaction_metrics": {
+        "count": 418,
+        "volume_usd": 12620374.77,
+        "avg_fee_usd": 0.007
+      },
+      "network_activity": {
+        "active_addresses": 719,
+        "new_addresses": 94
+      },
+      "valuation_metrics": {
+        "utxo_realized_price": 80.13
+      },
+      "supply_distribution": {
+        "whale_aggregate_balance": 99931520.39
+      }
+    },
+    {
+      "timestamp": "2025-11-23T02:00:00Z",
+      "block_summary": {
+        "height": 8007194,
+        "block_time_avg": 12
+      },
+      "transaction_metrics": {
+        "count": 639,
+        "volume_usd": 7488643.31,
+        "avg_fee_usd": 0.0164
+      },
+      "network_activity": {
+        "active_addresses": 1073,
+        "new_addresses": 148
+      },
+      "valuation_metrics": {
+        "utxo_realized_price": 85.98
+      },
+      "supply_distribution": {
+        "whale_aggregate_balance": 99974897.12
+      }
+    },
+    {
+      "timestamp": "2025-11-23T02:30:00Z",
+      "block_summary": {
+        "height": 8007594,
+        "block_time_avg": 12
+      },
+      "transaction_metrics": {
+        "count": 640,
+        "volume_usd": 7546866.7,
+        "avg_fee_usd": 0.0164
+      },
+      "network_activity": {
+        "active_addresses": 1144,
+        "new_addresses": 114
+      },
+      "valuation_metrics": {
+        "utxo_realized_price": 91.82
+      },
+      "supply_distribution": {
+        "whale_aggregate_balance": 100016993.76
+      }
+    },
+    {
+      "timestamp": "2025-11-23T03:00:00Z",
+      "block_summary": {
+        "height": 8007994,
+        "block_time_avg": 12
+      },
+      "transaction_metrics": {
+        "count": 493,
+        "volume_usd": 9823811.29,
+        "avg_fee_usd": 0.0097
+      },
+      "network_activity": {
+        "active_addresses": 861,
+        "new_addresses": 74
+      },
+      "valuation_metrics": {
+        "utxo_realized_price": 88.1
+      },
+      "supply_distribution": {
+        "whale_aggregate_balance": 100052340.84
+      }
+    },
+    {
+      "timestamp": "2025-11-23T03:30:00Z",
+      "block_summary": {
+        "height": 8008394,
+        "block_time_avg": 12
+      },
+      "transaction_metrics": {
+        "count": 450,
+        "volume_usd": 8733391.94,
+        "avg_fee_usd": 0.0081
+      },
+      "network_activity": {
+        "active_addresses": 806,
+        "new_addresses": 89
+      },
+      "valuation_metrics": {
+        "utxo_realized_price": 92.66
+      },
+      "supply_distribution": {
+        "whale_aggregate_balance": 100028435.0
+      }
+    },
+    {
+      "timestamp": "2025-11-23T04:00:00Z",
+      "block_summary": {
+        "height": 8008794,
+        "block_time_avg": 12
+      },
+      "transaction_metrics": {
+        "count": 485,
+        "volume_usd": 17386886.24,
+        "avg_fee_usd": 0.0094
+      },
+      "network_activity": {
+        "active_addresses": 629,
+        "new_addresses": 82
+      },
+      "valuation_metrics": {
+        "utxo_realized_price": 83.27
+      },
+      "supply_distribution": {
+        "whale_aggregate_balance": 100022778.63
+      }
+    },
+    {
+      "timestamp": "2025-11-23T04:30:00Z",
+      "block_summary": {
+        "height": 8009194,
+        "block_time_avg": 12
+      },
+      "transaction_metrics": {
+        "count": 618,
+        "volume_usd": 11975238.39,
+        "avg_fee_usd": 0.0153
+      },
+      "network_activity": {
+        "active_addresses": 853,
+        "new_addresses": 85
+      },
+      "valuation_metrics": {
+        "utxo_realized_price": 92.45
+      },
+      "supply_distribution": {
+        "whale_aggregate_balance": 100045490.76
+      }
+    },
+    {
+      "timestamp": "2025-11-23T05:00:00Z",
+      "block_summary": {
+        "height": 8009594,
+        "block_time_avg": 12
+      },
+      "transaction_metrics": {
+        "count": 586,
+        "volume_usd": 11032749.03,
+        "avg_fee_usd": 0.0138
+      },
+      "network_activity": {
+        "active_addresses": 988,
+        "new_addresses": 53
+      },
+      "valuation_metrics": {
+        "utxo_realized_price": 93.62
+      },
+      "supply_distribution": {
+        "whale_aggregate_balance": 100003643.29
+      }
+    },
+    {
+      "timestamp": "2025-11-23T05:30:00Z",
+      "block_summary": {
+        "height": 8009994,
+        "block_time_avg": 12
+      },
+      "transaction_metrics": {
+        "count": 584,
+        "volume_usd": 17461503.68,
+        "avg_fee_usd": 0.0137
+      },
+      "network_activity": {
+        "active_addresses": 849,
+        "new_addresses": 127
+      },
+      "valuation_metrics": {
+        "utxo_realized_price": 81.16
+      },
+      "supply_distribution": {
+        "whale_aggregate_balance": 99988189.63
+      }
+    },
+    {
+      "timestamp": "2025-11-23T06:00:00Z",
+      "block_summary": {
+        "height": 8010394,
+        "block_time_avg": 12
+      },
+      "transaction_metrics": {
+        "count": 478,
+        "volume_usd": 8314130.97,
+        "avg_fee_usd": 0.0092
+      },
+      "network_activity": {
+        "active_addresses": 710,
+        "new_addresses": 66
+      },
+      "valuation_metrics": {
+        "utxo_realized_price": 92.68
+      },
+      "supply_distribution": {
+        "whale_aggregate_balance": 100037190.93
+      }
+    }
+  ]
+}
