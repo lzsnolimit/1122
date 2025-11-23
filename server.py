@@ -1,7 +1,7 @@
 import json
 import logging
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
-from typing import Tuple
+from typing import List, Tuple, Optional
 
 try:
     from service import db_service
@@ -13,13 +13,33 @@ HOST: str = "0.0.0.0"
 PORT: int = 8000
 
 
-def cors_headers() -> Tuple[str, str, str]:
-    """Return common CORS headers for development use."""
-    return (
-        ("Access-Control-Allow-Origin", "*"),
-        ("Access-Control-Allow-Methods", "GET, OPTIONS"),
-        ("Access-Control-Allow-Headers", "*"),
-    )
+def cors_headers(origin: Optional[str], request_headers: Optional[str]) -> List[Tuple[str, str]]:
+    """Build CORS headers based on the incoming request.
+
+    - Echo the `Origin` when present (required if credentials are used).
+    - Fallback to `*` when no `Origin` header exists.
+    - Echo requested headers for preflight; otherwise allow common headers.
+    - Allow `GET, OPTIONS` methods and set a small max-age for preflight caching.
+    """
+    headers: List[Tuple[str, str]] = []
+
+    if origin:
+        headers.append(("Access-Control-Allow-Origin", origin))
+        headers.append(("Vary", "Origin"))
+        # Only advertise credentials support when we have a concrete origin
+        headers.append(("Access-Control-Allow-Credentials", "true"))
+    else:
+        headers.append(("Access-Control-Allow-Origin", "*"))
+
+    headers.append(("Access-Control-Allow-Methods", "GET, OPTIONS"))
+
+    if request_headers:
+        headers.append(("Access-Control-Allow-Headers", request_headers))
+    else:
+        headers.append(("Access-Control-Allow-Headers", "Accept, Content-Type"))
+
+    headers.append(("Access-Control-Max-Age", "600"))
+    return headers
 
 
 class Handler(BaseHTTPRequestHandler):
@@ -32,9 +52,16 @@ class Handler(BaseHTTPRequestHandler):
         self.send_response(status)
         self.send_header("Content-Type", content_type)
         self.send_header("Cache-Control", "no-store")
-        for k, v in cors_headers():
+        # Add CORS headers based on incoming request
+        origin = self.headers.get("Origin")
+        req_headers = self.headers.get("Access-Control-Request-Headers")
+        for k, v in cors_headers(origin, req_headers):
             self.send_header(k, v)
         self.end_headers()
+
+    def do_HEAD(self) -> None:  # noqa: N802
+        # Gracefully respond to HEAD with CORS headers
+        self._write_headers(status=200)
 
     def do_OPTIONS(self) -> None:  # noqa: N802
         # Respond to CORS preflight
