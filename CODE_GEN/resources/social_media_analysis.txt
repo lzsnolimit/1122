@@ -1,1 +1,2 @@
-BTC Good, Trump buy it today.
+{  "symbol": "BTC",
+  "reason": "Good stock"}
