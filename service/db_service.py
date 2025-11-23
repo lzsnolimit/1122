@@ -37,16 +37,17 @@ def get_last_10_advises() -> List[Dict[str, Any]]:
         conn.row_factory = sqlite3.Row
         cur = conn.cursor()
 
-        # Detect available columns to include optional fields like price
-        has_price = False
+        # Detect available columns to include optional fields
+        optional_cols = {"price", "change_24h_percent", "sentiment_score", "volume_24h", "market_capacity"}
+        present_optionals: List[str] = []
         try:
             cur.execute("PRAGMA table_info(advises)")
             columns_info = cur.fetchall()
             col_names = {r[1] for r in columns_info}  # type: ignore[index]
-            has_price = "price" in col_names
+            present_optionals = [c for c in optional_cols if c in col_names]
         except Exception:
             # If table doesn't exist yet or PRAGMA fails, fall back gracefully
-            has_price = False
+            present_optionals = []
 
         select_cols = [
             "symbol",
@@ -55,8 +56,7 @@ def get_last_10_advises() -> List[Dict[str, Any]]:
             "reason",
             "CAST(predicted_at AS INTEGER) AS predicted_at",
         ]
-        if has_price:
-            select_cols.append("price")
+        select_cols.extend(present_optionals)
 
         sql = (
             "SELECT "
@@ -88,10 +88,19 @@ def get_last_10_advises() -> List[Dict[str, Any]]:
             # Ensure integer for API contract
             "predicted_at": int(r["predicted_at"]) if r["predicted_at"] is not None else None,
         }
-        # Optional price field when present in schema
+        # Optional fields when present in schema
         try:
-            if "price" in r.keys():
+            keys = set(r.keys())
+            if "price" in keys:
                 item["price"] = r["price"]
+            if "change_24h_percent" in keys:
+                item["change_24h_percent"] = r["change_24h_percent"]
+            if "sentiment_score" in keys:
+                item["sentiment_score"] = r["sentiment_score"]
+            if "volume_24h" in keys:
+                item["volume_24h"] = r["volume_24h"]
+            if "market_capacity" in keys:
+                item["market_capacity"] = r["market_capacity"]
         except Exception:
             pass
 
