@@ -1,1 +1,6 @@
-Combined prompt goes here
+你是一个AI代码助手，请你阅读 resources/social_media_analysis.txt，这个文件是最近十分钟的social media内容分析，包含symbol和social media的语义分析。
+你再阅读CODE_GEN/resources目录下包含对应symbol的最近24小时数据。
+你再看一下 function_list.py，这里包含了一些常用股票分析函数。
+结合以上信息请你写代码调用你觉得需要的函数然后，请把调用了什么函数和返回结果拼接成一个summary，
+最后调用llm_summary
+生成的代码存在当前目录main.py文件

@@ -15,7 +15,7 @@ except Exception as e:  # pragma: no cover
 
 
 DB_PATH = "data.db"
-RESOURCES_DIR = "CODE_GEN/resources"
+RESOURCES_DIR = "resources"
 
 # Ensure repository root is on sys.path for imports like `service.*`
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir))
