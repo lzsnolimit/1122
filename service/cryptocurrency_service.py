@@ -1,4 +1,4 @@
-from typing import Dict, Any, List, Optional
+from typing import Dict, Any, List, Optional, Tuple
 import asyncio
 import json
 import math
@@ -14,6 +14,82 @@ try:
 except Exception:
     CryptoPowerDataCEXTool = None  # type: ignore
     get_cex_data_with_indicators = None  # type: ignore
+
+
+# Optional async CCXT fallback for real CEX calls when spoon_toolkits is missing
+try:  # pragma: no cover - optional dependency
+    import ccxt.async_support as ccxt_async  # type: ignore
+except Exception:  # pragma: no cover - optional dependency
+    ccxt_async = None  # type: ignore
+
+
+async def _fetch_bars_ccxt(
+    symbol: str,
+    exchange: str,
+    quote: str,
+    timeframe: str,
+    limit: int = 24,
+) -> Tuple[List[Dict[str, Any]], str]:
+    """
+    Fetch OHLCV bars using ccxt async as a real-data fallback.
+
+    Returns a tuple of (bars, resolved_pair). Each bar is a dict with
+    keys: timestamp, open, high, low, close, volume.
+    """
+    if ccxt_async is None:
+        raise RuntimeError("ccxt is not available for real-data fallback")
+
+    ex_class = getattr(ccxt_async, exchange, None)
+    if ex_class is None:
+        raise ValueError(f"Unsupported exchange: {exchange}")
+
+    ex = ex_class()
+    try:
+        await ex.load_markets()
+
+        # Resolve market symbol considering exchange-specific naming (e.g., Kraken XBT)
+        preferred = f"{symbol}/{quote}"
+        market_symbol: Optional[str] = preferred if preferred in ex.markets else None
+
+        if market_symbol is None:
+            alt_bases = [symbol]
+            if symbol.upper() == "BTC":
+                alt_bases.append("XBT")  # Kraken naming
+            alt_quotes = [quote, "USDT", "USD", "USDC", "EUR"]
+            for b in alt_bases:
+                for q in alt_quotes:
+                    cand = f"{b}/{q}"
+                    if cand in ex.markets:
+                        market_symbol = cand
+                        break
+                if market_symbol is not None:
+                    break
+
+        if market_symbol is None:
+            raise ValueError(f"No market found for {symbol} on {exchange}")
+
+        ohlcv = await ex.fetch_ohlcv(market_symbol, timeframe=timeframe, limit=limit)
+        bars: List[Dict[str, Any]] = []
+        for item in ohlcv:
+            # ccxt format: [timestamp, open, high, low, close, volume]
+            ts, o, h, l, c, v = item
+            bars.append(
+                {
+                    "timestamp": ts,
+                    "open": float(o) if o is not None else None,
+                    "high": float(h) if h is not None else None,
+                    "low": float(l) if l is not None else None,
+                    "close": float(c) if c is not None else None,
+                    "volume": float(v) if v is not None else None,
+                }
+            )
+
+        return bars, market_symbol
+    finally:  # ensure proper cleanup of exchange resources
+        try:
+            await ex.close()
+        except Exception:
+            pass
 
 
 def get_tracking_cryptocurrenc() -> List[str]:
@@ -59,15 +135,8 @@ async def async_get_symbol_24h_data(
         - source, error
     """
 
-    # Ensure the toolkit is available (either function or class)
-    if (get_cex_data_with_indicators is None) and (CryptoPowerDataCEXTool is None):
-        return {
-            "pair": f"{symbol}/{quote}",
-            "exchange": exchange,
-            "timeframe": timeframe,
-            "bars": [],
-            "stats": {}
-        }
+    # Ensure we always perform real calls: use spoon_toolkits if available,
+    # otherwise fall back to ccxt async. No mock or empty data.
 
     # Include richer indicator config to return more data in each bar
     indicators_config = json.dumps(
@@ -86,55 +155,42 @@ async def async_get_symbol_24h_data(
         }
     )
 
-    pair = f"{symbol}/{quote}"
+    resolved_pair = f"{symbol}/{quote}"
     bars: List[Dict[str, Any]]
-    source = "spoon_toolkits.crypto_powerdata"
 
     # Prefer direct tool function when available
     if get_cex_data_with_indicators is not None:
         result = await get_cex_data_with_indicators(
             exchange=exchange,
-            symbol=pair,
+            symbol=resolved_pair,
             timeframe=timeframe,
             limit=24,
             indicators_config=indicators_config,
             use_enhanced=True,
         )
         if not result.get("success"):
-            return {
-                "pair": pair,
-                "exchange": exchange,
-                "timeframe": timeframe,
-                "bars": [],
-                "stats": {},
-            }
-        bars = result.get("data", [])
+            # Fall back to ccxt if the tool function fails
+            bars, resolved_pair = await _fetch_bars_ccxt(symbol, exchange, quote, timeframe, 24)
+        else:
+            bars = result.get("data", [])
     elif CryptoPowerDataCEXTool is not None:
         tool = CryptoPowerDataCEXTool()
         tool_result = await tool.execute(
             exchange=exchange,
-            symbol=pair,
+            symbol=resolved_pair,
             timeframe=timeframe,
             limit=24,
             use_enhanced=True,
             indicators_config=indicators_config,
         )
         if getattr(tool_result, "error", None):
-            return {
-                "pair": pair,
-                "exchange": exchange,
-                "timeframe": timeframe,
-                "bars": [],
-                "stats": {},
-            }
-        bars = tool_result.output or []
+            # Fall back to ccxt if the toolkit class call fails
+            bars, resolved_pair = await _fetch_bars_ccxt(symbol, exchange, quote, timeframe, 24)
+        else:
+            bars = tool_result.output or []
     else:
-        return {
-            "pair": pair,
-            "timeframe": timeframe,
-            "bars": [],
-            "stats": {},
-        }
+        # Spoon not available: use ccxt for real CEX data
+        bars, resolved_pair = await _fetch_bars_ccxt(symbol, exchange, quote, timeframe, 24)
 
     # Compute 24h aggregates
     open_24h = bars[0].get("open") if bars else None
@@ -210,7 +266,7 @@ async def async_get_symbol_24h_data(
         clean_bars.append({k: v for k, v in b.items() if v is not None})
 
     result_payload = {
-        "pair": pair,
+        "pair": resolved_pair,
         "exchange": exchange,
         "timeframe": timeframe,
         "bars": clean_bars,

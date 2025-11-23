@@ -26,9 +26,9 @@
 - `symbol`：字符串。代币符号（如 `BTC`、`ETH`）。
 - `advice_action`：字符串。建议操作（如 `buy`、`hold`、`sell`）。
 - `advice_strength`：字符串。建议强度，枚举：`high` | `medium` | `low`。
-- `reason`：字符串。简要原因说明，用于展示。
+- `reason`：字符串（中文）。简要原因说明，用于展示。
 - `predicted_at`：整数。UNIX Epoch 秒级时间戳（如 `1732286100`）。
-- `kline_24h`：对象或 `null`（可选）。若未实现/无数据，可返回 `null` 或省略。
+- `price`：数字。该建议生成时的最新价格（单位与资源文件一致，如 `USD`）。
 
 > 备注：`kline_24h` 的结构当前非必需；若后续实现，建议提供标准 OHLCV 结构与时间戳，届时另行补充文档。
 
@@ -46,17 +46,17 @@ Accept: application/json
     "symbol": "BTC",
     "advice_action": "buy",
     "advice_strength": "high",
-    "reason": "Momentum strong; derivatives funding neutral; positive dev activity",
+    "reason": "动能较强，衍生品资金费率中性，开发活跃度提升",
     "predicted_at": 1732286100,
-    "kline_24h": null
+    "price": 68432.15,
   },
   {
     "symbol": "ETH",
     "advice_action": "hold",
     "advice_strength": "medium",
-    "reason": "Mixed on-chain flows; sentiment improving",
+    "reason": "链上资金流向分化，市场情绪逐步改善",
     "predicted_at": 1732283700,
-    "kline_24h": null
+    "price": 3720.48,
   }
 ]
 ```
@@ -76,9 +76,9 @@ type Advice = {
   symbol: string;
   advice_action: 'buy' | 'hold' | 'sell';
   advice_strength: 'high' | 'medium' | 'low';
-  reason: string;
+  reason: string; // Chinese text
   predicted_at: number; // UNIX seconds
-  kline_24h?: unknown | null;
+  price: number; // latest price in quote currency
 };
 
 async function loadLatestAdvices(): Promise<Advice[]> {
