@@ -1,0 +1,491 @@
+{
+  "symbol": "XRP",
+  "source": "github_scraper_v2",
+  "meta": {
+    "scraped_timestamp": "2025-11-23T04:39:47.669319",
+    "period": "24h",
+    "granularity": "30min"
+  },
+  "activity_log": [
+    {
+      "collected_at": "2025-11-22T05:00:00Z",
+      "repo_stats": {
+        "total_commits": 3,
+        "core_contributors_commits": 1,
+        "active_repos": 4,
+        "unique_authors": 1,
+        "latest_commit_hash": "f6cb46da"
+      }
+    },
+    {
+      "collected_at": "2025-11-22T05:30:00Z",
+      "repo_stats": {
+        "total_commits": 2,
+        "core_contributors_commits": 0,
+        "active_repos": 4,
+        "unique_authors": 1,
+        "latest_commit_hash": "35cbd24b"
+      }
+    },
+    {
+      "collected_at": "2025-11-22T06:00:00Z",
+      "repo_stats": {
+        "total_commits": 0,
+        "core_contributors_commits": 0,
+        "active_repos": 1,
+        "unique_authors": 0,
+        "latest_commit_hash": null
+      }
+    },
+    {
+      "collected_at": "2025-11-22T06:30:00Z",
+      "repo_stats": {
+        "total_commits": 0,
+        "core_contributors_commits": 0,
+        "active_repos": 3,
+        "unique_authors": 0,
+        "latest_commit_hash": null
+      }
+    },
+    {
+      "collected_at": "2025-11-22T07:00:00Z",
+      "repo_stats": {
+        "total_commits": 2,
+        "core_contributors_commits": 0,
+        "active_repos": 5,
+        "unique_authors": 1,
+        "latest_commit_hash": "7d4ea497"
+      }
+    },
+    {
+      "collected_at": "2025-11-22T07:30:00Z",
+      "repo_stats": {
+        "total_commits": 2,
+        "core_contributors_commits": 0,
+        "active_repos": 4,
+        "unique_authors": 1,
+        "latest_commit_hash": "ac34730a"
+      }
+    },
+    {
+      "collected_at": "2025-11-22T08:00:00Z",
+      "repo_stats": {
+        "total_commits": 21,
+        "core_contributors_commits": 12,
+        "active_repos": 5,
+        "unique_authors": 10,
+        "latest_commit_hash": "b1c185b8"
+      }
+    },
+    {
+      "collected_at": "2025-11-22T08:30:00Z",
+      "repo_stats": {
+        "total_commits": 2,
+        "core_contributors_commits": 1,
+        "active_repos": 5,
+        "unique_authors": 1,
+        "latest_commit_hash": "ab0c1898"
+      }
+    },
+    {
+      "collected_at": "2025-11-22T09:00:00Z",
+      "repo_stats": {
+        "total_commits": 23,
+        "core_contributors_commits": 11,
+        "active_repos": 5,
+        "unique_authors": 11,
+        "latest_commit_hash": "59d425a5"
+      }
+    },
+    {
+      "collected_at": "2025-11-22T09:30:00Z",
+      "repo_stats": {
+        "total_commits": 3,
+        "core_contributors_commits": 1,
+        "active_repos": 3,
+        "unique_authors": 1,
+        "latest_commit_hash": "5864c94c"
+      }
+    },
+    {
+      "collected_at": "2025-11-22T10:00:00Z",
+      "repo_stats": {
+        "total_commits": 5,
+        "core_contributors_commits": 1,
+        "active_repos": 3,
+        "unique_authors": 2,
+        "latest_commit_hash": "f82c5446"
+      }
+    },
+    {
+      "collected_at": "2025-11-22T10:30:00Z",
+      "repo_stats": {
+        "total_commits": 3,
+        "core_contributors_commits": 1,
+        "active_repos": 3,
+        "unique_authors": 1,
+        "latest_commit_hash": "3793d61b"
+      }
+    },
+    {
+      "collected_at": "2025-11-22T11:00:00Z",
+      "repo_stats": {
+        "total_commits": 28,
+        "core_contributors_commits": 15,
+        "active_repos": 5,
+        "unique_authors": 14,
+        "latest_commit_hash": "b9dcbd8d"
+      }
+    },
+    {
+      "collected_at": "2025-11-22T11:30:00Z",
+      "repo_stats": {
+        "total_commits": 1,
+        "core_contributors_commits": 0,
+        "active_repos": 4,
+        "unique_authors": 1,
+        "latest_commit_hash": "37864641"
+      }
+    },
+    {
+      "collected_at": "2025-11-22T12:00:00Z",
+      "repo_stats": {
+        "total_commits": 26,
+        "core_contributors_commits": 11,
+        "active_repos": 5,
+        "unique_authors": 13,
+        "latest_commit_hash": "aba5d2a7"
+      }
+    },
+    {
+      "collected_at": "2025-11-22T12:30:00Z",
+      "repo_stats": {
+        "total_commits": 3,
+        "core_contributors_commits": 1,
+        "active_repos": 3,
+        "unique_authors": 1,
+        "latest_commit_hash": "4b229a80"
+      }
+    },
+    {
+      "collected_at": "2025-11-22T13:00:00Z",
+      "repo_stats": {
+        "total_commits": 4,
+        "core_contributors_commits": 2,
+        "active_repos": 3,
+        "unique_authors": 2,
+        "latest_commit_hash": "84e66f17"
+      }
+    },
+    {
+      "collected_at": "2025-11-22T13:30:00Z",
+      "repo_stats": {
+        "total_commits": 3,
+        "core_contributors_commits": 1,
+        "active_repos": 2,
+        "unique_authors": 1,
+        "latest_commit_hash": "dcc2ca2b"
+      }
+    },
+    {
+      "collected_at": "2025-11-22T14:00:00Z",
+      "repo_stats": {
+        "total_commits": 3,
+        "core_contributors_commits": 1,
+        "active_repos": 1,
+        "unique_authors": 1,
+        "latest_commit_hash": "2ac134c7"
+      }
+    },
+    {
+      "collected_at": "2025-11-22T14:30:00Z",
+      "repo_stats": {
+        "total_commits": 4,
+        "core_contributors_commits": 2,
+        "active_repos": 5,
+        "unique_authors": 2,
+        "latest_commit_hash": "2423666a"
+      }
+    },
+    {
+      "collected_at": "2025-11-22T15:00:00Z",
+      "repo_stats": {
+        "total_commits": 4,
+        "core_contributors_commits": 1,
+        "active_repos": 4,
+        "unique_authors": 2,
+        "latest_commit_hash": "7bfbba37"
+      }
+    },
+    {
+      "collected_at": "2025-11-22T15:30:00Z",
+      "repo_stats": {
+        "total_commits": 4,
+        "core_contributors_commits": 1,
+        "active_repos": 3,
+        "unique_authors": 2,
+        "latest_commit_hash": "65a36bb7"
+      }
+    },
+    {
+      "collected_at": "2025-11-22T16:00:00Z",
+      "repo_stats": {
+        "total_commits": 0,
+        "core_contributors_commits": 0,
+        "active_repos": 2,
+        "unique_authors": 0,
+        "latest_commit_hash": null
+      }
+    },
+    {
+      "collected_at": "2025-11-22T16:30:00Z",
+      "repo_stats": {
+        "total_commits": 1,
+        "core_contributors_commits": 0,
+        "active_repos": 5,
+        "unique_authors": 1,
+        "latest_commit_hash": "ade99349"
+      }
+    },
+    {
+      "collected_at": "2025-11-22T17:00:00Z",
+      "repo_stats": {
+        "total_commits": 5,
+        "core_contributors_commits": 1,
+        "active_repos": 1,
+        "unique_authors": 2,
+        "latest_commit_hash": "9ce149f8"
+      }
+    },
+    {
+      "collected_at": "2025-11-22T17:30:00Z",
+      "repo_stats": {
+        "total_commits": 5,
+        "core_contributors_commits": 1,
+        "active_repos": 3,
+        "unique_authors": 2,
+        "latest_commit_hash": "ab7fd2b0"
+      }
+    },
+    {
+      "collected_at": "2025-11-22T18:00:00Z",
+      "repo_stats": {
+        "total_commits": 5,
+        "core_contributors_commits": 1,
+        "active_repos": 3,
+        "unique_authors": 2,
+        "latest_commit_hash": "3ace6ada"
+      }
+    },
+    {
+      "collected_at": "2025-11-22T18:30:00Z",
+      "repo_stats": {
+        "total_commits": 32,
+        "core_contributors_commits": 14,
+        "active_repos": 4,
+        "unique_authors": 16,
+        "latest_commit_hash": "24bfc201"
+      }
+    },
+    {
+      "collected_at": "2025-11-22T19:00:00Z",
+      "repo_stats": {
+        "total_commits": 2,
+        "core_contributors_commits": 0,
+        "active_repos": 3,
+        "unique_authors": 1,
+        "latest_commit_hash": "2c603a91"
+      }
+    },
+    {
+      "collected_at": "2025-11-22T19:30:00Z",
+      "repo_stats": {
+        "total_commits": 5,
+        "core_contributors_commits": 1,
+        "active_repos": 5,
+        "unique_authors": 2,
+        "latest_commit_hash": "5632f968"
+      }
+    },
+    {
+      "collected_at": "2025-11-22T20:00:00Z",
+      "repo_stats": {
+        "total_commits": 3,
+        "core_contributors_commits": 1,
+        "active_repos": 1,
+        "unique_authors": 1,
+        "latest_commit_hash": "29229526"
+      }
+    },
+    {
+      "collected_at": "2025-11-22T20:30:00Z",
+      "repo_stats": {
+        "total_commits": 5,
+        "core_contributors_commits": 2,
+        "active_repos": 1,
+        "unique_authors": 2,
+        "latest_commit_hash": "60e51541"
+      }
+    },
+    {
+      "collected_at": "2025-11-22T21:00:00Z",
+      "repo_stats": {
+        "total_commits": 0,
+        "core_contributors_commits": 0,
+        "active_repos": 1,
+        "unique_authors": 0,
+        "latest_commit_hash": null
+      }
+    },
+    {
+      "collected_at": "2025-11-22T21:30:00Z",
+      "repo_stats": {
+        "total_commits": 1,
+        "core_contributors_commits": 0,
+        "active_repos": 5,
+        "unique_authors": 1,
+        "latest_commit_hash": "62b8654e"
+      }
+    },
+    {
+      "collected_at": "2025-11-22T22:00:00Z",
+      "repo_stats": {
+        "total_commits": 1,
+        "core_contributors_commits": 0,
+        "active_repos": 2,
+        "unique_authors": 1,
+        "latest_commit_hash": "8ee9c52d"
+      }
+    },
+    {
+      "collected_at": "2025-11-22T22:30:00Z",
+      "repo_stats": {
+        "total_commits": 29,
+        "core_contributors_commits": 11,
+        "active_repos": 2,
+        "unique_authors": 14,
+        "latest_commit_hash": "8abb87ba"
+      }
+    },
+    {
+      "collected_at": "2025-11-22T23:00:00Z",
+      "repo_stats": {
+        "total_commits": 2,
+        "core_contributors_commits": 0,
+        "active_repos": 4,
+        "unique_authors": 1,
+        "latest_commit_hash": "e84fdd61"
+      }
+    },
+    {
+      "collected_at": "2025-11-22T23:30:00Z",
+      "repo_stats": {
+        "total_commits": 3,
+        "core_contributors_commits": 1,
+        "active_repos": 5,
+        "unique_authors": 1,
+        "latest_commit_hash": "3f52dd47"
+      }
+    },
+    {
+      "collected_at": "2025-11-23T00:00:00Z",
+      "repo_stats": {
+        "total_commits": 15,
+        "core_contributors_commits": 3,
+        "active_repos": 5,
+        "unique_authors": 7,
+        "latest_commit_hash": "ae21dada"
+      }
+    },
+    {
+      "collected_at": "2025-11-23T00:30:00Z",
+      "repo_stats": {
+        "total_commits": 5,
+        "core_contributors_commits": 2,
+        "active_repos": 5,
+        "unique_authors": 2,
+        "latest_commit_hash": "a8fb5bf2"
+      }
+    },
+    {
+      "collected_at": "2025-11-23T01:00:00Z",
+      "repo_stats": {
+        "total_commits": 1,
+        "core_contributors_commits": 0,
+        "active_repos": 1,
+        "unique_authors": 1,
+        "latest_commit_hash": "65ec5edd"
+      }
+    },
+    {
+      "collected_at": "2025-11-23T01:30:00Z",
+      "repo_stats": {
+        "total_commits": 1,
+        "core_contributors_commits": 0,
+        "active_repos": 3,
+        "unique_authors": 1,
+        "latest_commit_hash": "c79e1b7a"
+      }
+    },
+    {
+      "collected_at": "2025-11-23T02:00:00Z",
+      "repo_stats": {
+        "total_commits": 4,
+        "core_contributors_commits": 0,
+        "active_repos": 5,
+        "unique_authors": 2,
+        "latest_commit_hash": "0ed6eb4b"
+      }
+    },
+    {
+      "collected_at": "2025-11-23T02:30:00Z",
+      "repo_stats": {
+        "total_commits": 1,
+        "core_contributors_commits": 0,
+        "active_repos": 3,
+        "unique_authors": 1,
+        "latest_commit_hash": "16b1d44f"
+      }
+    },
+    {
+      "collected_at": "2025-11-23T03:00:00Z",
+      "repo_stats": {
+        "total_commits": 2,
+        "core_contributors_commits": 1,
+        "active_repos": 5,
+        "unique_authors": 1,
+        "latest_commit_hash": "2e765002"
+      }
+    },
+    {
+      "collected_at": "2025-11-23T03:30:00Z",
+      "repo_stats": {
+        "total_commits": 24,
+        "core_contributors_commits": 12,
+        "active_repos": 1,
+        "unique_authors": 12,
+        "latest_commit_hash": "999af1ca"
+      }
+    },
+    {
+      "collected_at": "2025-11-23T04:00:00Z",
+      "repo_stats": {
+        "total_commits": 1,
+        "core_contributors_commits": 0,
+        "active_repos": 2,
+        "unique_authors": 1,
+        "latest_commit_hash": "58ee0ad2"
+      }
+    },
+    {
+      "collected_at": "2025-11-23T04:30:00Z",
+      "repo_stats": {
+        "total_commits": 2,
+        "core_contributors_commits": 0,
+        "active_repos": 3,
+        "unique_authors": 1,
+        "latest_commit_hash": "d8b7efd6"
+      }
+    }
+  ]
+}

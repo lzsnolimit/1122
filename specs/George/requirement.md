@@ -16,3 +16,5 @@ development_data_source	（我这边直接mock）
 代码提交记录 (Commit Logs)：包括提交时间 (Timestamp)
 贡献者 ID/用户名 (Contributor ID)：用于识别核心开发者
 代码更新频率/行数变化 (Code Change)：量化每次提交的规模/重要性
+
+对于sentiment处理的insight 情绪的评分可以作为止损/止盈的依据
