@@ -1,0 +1,3 @@
+from service.cryptocurrency_service import save_tracking_symbols_to_resources
+
+save_tracking_symbols_to_resources()
