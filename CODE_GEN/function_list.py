@@ -3,7 +3,7 @@ def market_data_analysis(symbol):
     Wrapper function to load data, generate technical metrics, and return a filtered set of predictive signals.
 
     Input:
-        symbol (str): The ticker symbol of the asset (e.g., "BTC", "ETH").
+        symbol (str): The ticker symbol of the assct ("USDT","BTC","ETH","USDC","SOL","XRP","ZEC","BNB","DOGE").
                       Implicitly requires a JSON file at '../CODE_GEN/resources/{symbol}.txt'.
 
     Output:
