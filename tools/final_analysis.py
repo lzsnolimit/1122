@@ -41,15 +41,28 @@ def _extract_latest_price(symbol_resource: Dict[str, Any]) -> Optional[float]:
     return None
 
 
-def _ensure_price_column() -> None:
+def _ensure_extended_columns() -> None:
     conn = sqlite3.connect(DB_PATH)
     try:
         cur = conn.cursor()
         cur.execute("PRAGMA table_info(advises)")
         cols = cur.fetchall()
         names = {c[1] for c in cols}
+        migrations = []
         if "price" not in names:
-            cur.execute("ALTER TABLE advises ADD COLUMN price REAL")
+            migrations.append("ALTER TABLE advises ADD COLUMN price REAL")
+        if "change_24h_percent" not in names:
+            migrations.append("ALTER TABLE advises ADD COLUMN change_24h_percent REAL")
+        if "sentiment_score" not in names:
+            migrations.append("ALTER TABLE advises ADD COLUMN sentiment_score REAL")
+        if "volume_24h" not in names:
+            migrations.append("ALTER TABLE advises ADD COLUMN volume_24h REAL")
+        if "market_capacity" not in names:
+            migrations.append("ALTER TABLE advises ADD COLUMN market_capacity REAL")
+
+        for sql in migrations:
+            cur.execute(sql)
+        if migrations:
             conn.commit()
     finally:
         try:
@@ -58,8 +71,22 @@ def _ensure_price_column() -> None:
             pass
 
 
-def _is_chinese_text(text: str) -> bool:
+def _contains_cjk(text: str) -> bool:
     return bool(re.search(r"[\u4e00-\u9fff]", text))
+
+
+def _is_english_text(text: str) -> bool:
+    """Heuristic English check: must contain A–Z letters and no CJK.
+
+    This is intentionally simple and avoids heavy dependencies. It will
+    treat ASCII-lettered content (with digits/punctuation/spaces) as English
+    as long as it doesn't include CJK codepoints.
+    """
+    if not isinstance(text, str):
+        return False
+    if _contains_cjk(text):
+        return False
+    return bool(re.search(r"[A-Za-z]", text))
 
 
 def _insert_advice(row: Dict[str, Any]) -> None:
@@ -68,8 +95,19 @@ def _insert_advice(row: Dict[str, Any]) -> None:
         cur = conn.cursor()
         cur.execute(
             """
-            INSERT INTO advises (symbol, advice_action, advice_strength, reason, predicted_at, price)
-            VALUES (?, ?, ?, ?, ?, ?)
+            INSERT INTO advises (
+              symbol,
+              advice_action,
+              advice_strength,
+              reason,
+              predicted_at,
+              price,
+              change_24h_percent,
+              sentiment_score,
+              volume_24h,
+              market_capacity
+            )
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """,
             (
                 row["symbol"],
@@ -78,6 +116,10 @@ def _insert_advice(row: Dict[str, Any]) -> None:
                 row["reason"],
                 int(row["predicted_at"]),
                 float(row["price"]) if row.get("price") is not None else None,
+                float(row["change_24h_percent"]) if row.get("change_24h_percent") is not None else None,
+                float(row["sentiment_score"]) if row.get("sentiment_score") is not None else None,
+                float(row["volume_24h"]) if row.get("volume_24h") is not None else None,
+                float(row["market_capacity"]) if row.get("market_capacity") is not None else None,
             ),
         )
         conn.commit()
@@ -99,9 +141,12 @@ def llm_summary(symbol: str, analysis_results: str) -> None:
     Behavior:
         - Read social media context from `CODE_GEN/resources/social_media_analysis.txt`.
         - Read `{symbol}.txt` resource JSON for 24h data and price.
-        - Call `langchain-openai` ChatOpenAI (model: gpt-5) with medium reasoning (via prompt),
-          without explicitly setting temperature.
-        - Validate output fields and insert into `data.db` (table: advises) including `price`.
+        - Call `langchain-openai` ChatOpenAI (model: gpt-5) with medium reasoning (via prompt).
+        - Require `reason` to be English and to synthesize: social media sentiment, the
+          provided analysis results, and the current price context from stats/last bar.
+        - Request and store additional numeric fields: change_24h_percent, sentiment_score (0-1),
+          volume_24h, market_capacity. Prefer values derivable from provided stats when available.
+        - Validate output fields and insert into `data.db` (table: advises) including `price` and extras.
 
     Raises:
         RuntimeError or ValueError on missing env, context, price, or invalid model output.
@@ -147,12 +192,35 @@ def llm_summary(symbol: str, analysis_results: str) -> None:
     except Exception as e:
         raise RuntimeError(f"Failed to initialize ChatOpenAI: {e}")
 
+    # Derive helpful stats for robustness and to avoid model hallucination
+    stats = summary.get("stats") or {}
+    derived_change_pct = None
+    if isinstance(stats.get("change_24h_percent"), (int, float)):
+        derived_change_pct = float(stats["change_24h_percent"])
+    else:
+        try:
+            o = stats.get("open_24h")
+            c = stats.get("close_latest") or latest_price
+            if isinstance(o, (int, float)) and isinstance(c, (int, float)) and o:
+                derived_change_pct = (float(c) - float(o)) / float(o) * 100.0
+        except Exception:
+            derived_change_pct = None
+
+    derived_volume_24h = stats.get("volume_24h") if isinstance(stats.get("volume_24h"), (int, float)) else None
+    # Use quote_volume_24h as a proxy for market capacity/liquidity if market cap isn't present
+    derived_market_capacity = (
+        stats.get("quote_volume_24h") if isinstance(stats.get("quote_volume_24h"), (int, float)) else None
+    )
+
     system_msg = SystemMessage(
         content=(
-            "你是加密资产投资顾问。必须以严格 JSON 输出以下字段："
-            "symbol(advice symbol), advice_action(buy|hold|sell), advice_strength(high|medium|low),"
-            "reason(中文), predicted_at(UNIX秒), price(number)。"
-            "请采用中等推理力度（medium reasoning effort），保持输出简洁、可读。"
+            "You are a crypto investment advisor. Respond strictly as JSON with the fields: "
+            "symbol (advice symbol), advice_action (buy|hold|sell), advice_strength (high|medium|low), "
+            "reason (English), predicted_at (UNIX seconds), price (number), "
+            "change_24h_percent (number), sentiment_score (0-1), volume_24h (number), market_capacity (number). "
+            "Use a medium reasoning effort and keep output concise and readable. "
+            "The reason MUST synthesize three aspects: (1) social media sentiment, "
+            "(2) the provided analysis results, and (3) price data/trend from the resource summary."
         )
     )
 
@@ -162,7 +230,10 @@ def llm_summary(symbol: str, analysis_results: str) -> None:
             f"social_media_analysis: {social_context}\n"
             f"symbol_24h_resource_summary: {json.dumps(summary, ensure_ascii=False)}\n"
             f"analysis_results: {analysis_results}\n"
-            "请综合以上信息，输出上述 JSON 字段，reason 必须为中文。"
+            "Output the JSON fields listed by the system message. The reason must be in English "
+            "and explicitly synthesize social sentiment, the analysis results, and price data/trend. "
+            "For numeric fields: if the resource summary includes a value (e.g., change_24h_percent, volume_24h, "
+            "quote_volume_24h as market_capacity), copy that value; otherwise, estimate based on provided data."
         )
     )
 
@@ -188,6 +259,10 @@ def llm_summary(symbol: str, analysis_results: str) -> None:
     reason = data.get("reason")
     predicted_at = data.get("predicted_at")
     price_out = data.get("price")
+    change_24h_percent_out = data.get("change_24h_percent")
+    sentiment_score_out = data.get("sentiment_score")
+    volume_24h_out = data.get("volume_24h")
+    market_capacity_out = data.get("market_capacity")
 
     if symbol_out != symbol:
         raise ValueError("LLM output symbol mismatch")
@@ -195,8 +270,8 @@ def llm_summary(symbol: str, analysis_results: str) -> None:
         raise ValueError("Invalid advice_action")
     if strength not in {"high", "medium", "low"}:
         raise ValueError("Invalid advice_strength")
-    if not isinstance(reason, str) or not reason.strip() or not _is_chinese_text(reason):
-        raise ValueError("reason must be non-empty Chinese text")
+    if not isinstance(reason, str) or not reason.strip() or not _is_english_text(reason):
+        raise ValueError("reason must be non-empty English text without CJK characters")
     if not isinstance(predicted_at, (int, float)):
         # keep minimal fallback: use current time seconds
         predicted_at = int(time.time())
@@ -206,12 +281,36 @@ def llm_summary(symbol: str, analysis_results: str) -> None:
     # Prefer extracted latest price over model-produced price to ensure consistency
     final_price = latest_price
 
+    # Resolve extended numeric fields, preferring derived stats
+    final_change_pct = None
+    if isinstance(derived_change_pct, (int, float)):
+        final_change_pct = float(derived_change_pct)
+    elif isinstance(change_24h_percent_out, (int, float)):
+        final_change_pct = float(change_24h_percent_out)
+
+    final_volume_24h = None
+    if isinstance(derived_volume_24h, (int, float)):
+        final_volume_24h = float(derived_volume_24h)
+    elif isinstance(volume_24h_out, (int, float)):
+        final_volume_24h = float(volume_24h_out)
+
+    final_market_capacity = None
+    if isinstance(derived_market_capacity, (int, float)):
+        final_market_capacity = float(derived_market_capacity)
+    elif isinstance(market_capacity_out, (int, float)):
+        final_market_capacity = float(market_capacity_out)
+
+    final_sentiment = None
+    if isinstance(sentiment_score_out, (int, float)):
+        # Clamp to [0,1] as required
+        final_sentiment = max(0.0, min(1.0, float(sentiment_score_out)))
+
     # Ensure price is numeric
     if not isinstance(final_price, (int, float)):
         raise ValueError("Missing numeric price for insert")
 
     # Ensure DB schema and insert
-    _ensure_price_column()
+    _ensure_extended_columns()
     row = {
         "symbol": symbol,
         "advice_action": action,
@@ -219,6 +318,10 @@ def llm_summary(symbol: str, analysis_results: str) -> None:
         "reason": reason.strip(),
         "predicted_at": predicted_at,
         "price": float(final_price),
+        "change_24h_percent": final_change_pct,
+        "sentiment_score": final_sentiment,
+        "volume_24h": final_volume_24h,
+        "market_capacity": final_market_capacity,
     }
 
     try:
@@ -229,4 +332,4 @@ def llm_summary(symbol: str, analysis_results: str) -> None:
         raise RuntimeError(f"Failed to insert advice: {e}")
 
 if __name__ == "__main__":
-    print(llm_summary(symbol="BTC",analysis_results="数据面乐观"))
+    print(llm_summary(symbol="BTC", analysis_results="Data analysis is optimistic"))
