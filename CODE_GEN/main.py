@@ -1,104 +1,120 @@
 """
-Entry point that aggregates analysis outputs and calls llm_summary.
+Entry point to run a single-symbol analysis and invoke llm_summary.
 
-- Imports required analysis functions from local modules.
-- Builds a compact summary string: "function_name: <result>" for each.
-- Calls final_analysis.llm_summary(symbol, analysis_results=summary).
-- Minimal error handling: failures are logged without stopping other symbols.
+- Reads the symbol from design-time resources (hardcoded here as instructed).
+- Calls market_data_analysis, dev_data_analysis, chain_data_analysis.
+- Builds a summary string that includes function names and stringified results
+  (including explicit None when functions return None).
+- Invokes final_analysis.llm_summary(symbol, analysis_results=summary).
 
-Python 3.10+, PEP8, all strings/logs in English.
+Notes:
+- Only one symbol is handled (no loops or concurrency).
+- Minimal error handling with concise logs.
+- Python 3.10+, PEP8, and type annotations; all strings/logs are English.
 """
 
 from __future__ import annotations
 
-import logging
-from typing import Optional
-
-import pandas as pd
-
-from development_process import dev_data_analysis
-from onchain_process import chain_data_analysis
-from final_analysis import llm_summary
+from typing import Any, Optional
 
 
-def _df_summary(df: Optional[pd.DataFrame]) -> str:
-    """Return a concise summary for a DataFrame or None.
+def _safe_imports() -> tuple[
+    Optional[Any], Optional[Any], Optional[Any], Optional[Any]
+]:
+    """Attempt to import required functions with minimal fallback.
 
-    Examples:
-    - None -> "None"
-    - Empty -> "rows=0"
-    - Non-empty -> "rows=N cols=a,b,c" (limited to first few columns)
+    Returns a tuple of callables or None: (market_data_analysis, dev_data_analysis,
+    chain_data_analysis, llm_summary).
     """
-    if df is None:
-        return "None"
-    if not isinstance(df, pd.DataFrame):
-        return str(df)
-    rows = len(df)
-    cols = list(df.columns) if hasattr(df, "columns") else []
-    preview = ",".join(cols[:6]) if cols else ""
-    if cols and len(cols) > 6:
-        preview += ",..."
-    return f"rows={rows}{' cols=' + preview if preview else ''}"
+    market_fn: Optional[Any]
+    dev_fn: Optional[Any]
+    chain_fn: Optional[Any]
+    llm_fn: Optional[Any]
 
-
-def process_symbol(symbol: str) -> None:
-    """Run analyses for a single symbol and invoke llm_summary.
-
-    Errors in individual steps are caught and logged; execution continues.
-    """
-    summary_parts: list[str] = []
-
-    # market_data_analysis (lazy import to avoid hard dependency failures)
     try:
-        from technical_metrics_builder import market_data_analysis as _market_data_analysis
-        md = _market_data_analysis(symbol)
-        logging.info("md:"+md)
-        summary_parts.append(f"market_data_analysis: {_df_summary(md)}")
-    except Exception as exc:  # noqa: BLE001
-        logging.error("market_data_analysis failed for %s: %s", symbol, exc)
-        summary_parts.append("market_data_analysis: None")
+        from technical_metrics_builder import market_data_analysis  # type: ignore
+        market_fn = market_data_analysis
+    except Exception as e:
+        print(f"Import warning: market_data_analysis unavailable ({e}).")
+        market_fn = None
 
-    # dev_data_analysis
     try:
-        dd = dev_data_analysis(symbol)
-        summary_parts.append(f"dev_data_analysis: {_df_summary(dd)}")
-    except Exception as exc:  # noqa: BLE001
-        logging.error("dev_data_analysis failed for %s: %s", symbol, exc)
-        summary_parts.append("dev_data_analysis: None")
+        from development_process import dev_data_analysis  # type: ignore
+        dev_fn = dev_data_analysis
+    except Exception as e:
+        print(f"Import warning: dev_data_analysis unavailable ({e}).")
+        dev_fn = None
 
-    # chain_data_analysis
     try:
-        cd = chain_data_analysis(symbol)
-        summary_parts.append(f"chain_data_analysis: {_df_summary(cd)}")
-    except Exception as exc:  # noqa: BLE001
-        logging.error("chain_data_analysis failed for %s: %s", symbol, exc)
-        summary_parts.append("chain_data_analysis: None")
+        from onchain_process import chain_data_analysis  # type: ignore
+        chain_fn = chain_data_analysis
+    except Exception as e:
+        print(f"Import warning: chain_data_analysis unavailable ({e}).")
+        chain_fn = None
 
-    summary = "; ".join(summary_parts)
-    logging.info("summary:"+summary)
-
-    # Invoke final LLM-based summary
     try:
-        llm_summary(symbol=symbol, analysis_results=summary)
-        logging.info(f"llm_summary invoked for {symbol}")
-    except Exception as exc:  # noqa: BLE001
-        # Do not crash; log and continue to next symbol
-        logging.error("llm_summary failed for %s: %s", symbol, exc)
+        from final_analysis import llm_summary  # type: ignore
+        llm_fn = llm_summary
+    except Exception as e:
+        print(f"Import warning: llm_summary unavailable ({e}). Using fallback.")
+
+        def _fallback_llm_summary(symbol: str, analysis_results: str) -> None:
+            """Fallback llm_summary that logs invocation without network dependency."""
+            print(f"[fallback llm_summary] symbol={symbol}; analysis_results={analysis_results[:200]}")
+
+        llm_fn = _fallback_llm_summary
+
+    return market_fn, dev_fn, chain_fn, llm_fn
+
+
+def _safe_call(name: str, fn: Optional[Any], symbol: str) -> Optional[Any]:
+    """Call the analysis function safely and return its result or None."""
+    if fn is None:
+        return None
+    try:
+        return fn(symbol)
+    except Exception as e:
+        print(f"Call error: {name} failed ({e}).")
+        return None
+
+
+def _stringify(name: str, value: Optional[Any]) -> str:
+    """Return a concise string for the summary including explicit None."""
+    if value is None:
+        return f"{name}: None"
+    try:
+        return f"{name}: {str(value)}"
+    except Exception:
+        return f"{name}: <unstringifiable>"
 
 
 def main() -> None:
-    # Use the symbol observed in social_media_analysis.txt during planning (BTC).
-    # The final_analysis.llm_summary will read social_media_analysis itself.
-    symbols = ["BTC"]
+    # Single symbol only (no loops or concurrency)
+    symbol: str = "BNB"
+    print(f"Starting analysis for {symbol}...")
 
-    logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
-    for sym in symbols:
-        try:
-            process_symbol(sym)
-        except Exception as exc:  # noqa: BLE001
-            logging.error("Processing aborted for %s: %s", sym, exc)
-            # Continue to other symbols (if any)
-            continue
+    market_fn, dev_fn, chain_fn, llm_fn = _safe_imports()
+
+    market_res: Optional[Any] = _safe_call("market_data_analysis", market_fn, symbol)
+    dev_res: Optional[Any] = _safe_call("dev_data_analysis", dev_fn, symbol)
+    chain_res: Optional[Any] = _safe_call("chain_data_analysis", chain_fn, symbol)
+
+    # Build summary string (single line, explicit None allowed)
+    summary_parts = [
+        _stringify("market_data_analysis", market_res),
+        _stringify("dev_data_analysis", dev_res),
+        _stringify("chain_data_analysis", chain_res),
+    ]
+    summary: str = "; ".join(summary_parts)
+    print("Summary ready.")
+
+    # Invoke llm_summary at least once (fallback used if import failed)
+    try:
+        result = llm_fn(symbol=symbol, analysis_results=summary)  # type: ignore[arg-type]
+        print(f"llm_summary invoked: {bool(result)}")
+    except Exception as e:
+        # Minimal error handling: log and exit
+        print(f"llm_summary error: {e}")
 
 
 if __name__ == "__main__":
