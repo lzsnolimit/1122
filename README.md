@@ -6,4 +6,27 @@
 4：LLM summary函数，也是tool，告诉code agent生成所有的structue数据，和所有的context，给llm让llm给出投资意见。投资意见存进 sqlite data.db。
 5: 运行code
 6: 写一个server 能返回data.db里最新的投资建议
+7: 前端
 
+
+
+
+
+
+
+提供给前端的接口
+
+1: 追踪的symbol前端固定写死   
+        "USDT",
+        "BTC",
+        "ETH",
+        "USDC",
+        "SOL",
+        "XRP",
+        "ZEC",
+        "BNB",
+        "DOGE"
+
+2: 获取最新投资建议的接口是 127.0.0.1:8000/api/get_last_10_advises
+
+get接口，返回的消息是 json,包含symbol，advice_action,reason,和最近24小时的k图（这个功能有时间就实现，时间不够可以不做）
